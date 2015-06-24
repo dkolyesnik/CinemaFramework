@@ -1,7 +1,7 @@
 package examples.test1;
 
 import cinema.Actor;
-import cinema.Character;
+import cinema.Hunter;
 import cinema.Hero;
 import cinema.Episode;
 
@@ -11,7 +11,7 @@ import cinema.Episode;
  */
 class RandomActionEpisode extends Episode
 {
-	public var character:Character;
+	public var hunter:Hunter;
 	
 	private var _chance:Int;
 	private var _foo:Actor->Void;
@@ -19,14 +19,14 @@ class RandomActionEpisode extends Episode
 	public function new(chance:Int, foo:Actor->Void) 
 	{
 		super();
-		character = _createCharacter(RenderObjectRole);
+		hunter = _createHunter(RenderObjectRole);
 		_chance = chance;
 		_foo = foo;
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		var array:Array<Hero> = character.heroes;
+		var array:Array<Hero> = hunter.heroes;
 		for (hero in array) {
 			if (Math.random() * 100 > _chance) {
 				_foo(hero.actor);

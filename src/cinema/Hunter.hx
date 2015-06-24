@@ -5,7 +5,7 @@ import cinema.filters.Filter;
  * ...
  * @author Kolyesnik D.V.
  */
-class Character
+class Hunter
 {
 	public var roleClass(default, null):Class<Role>;
 	public var heroes(default, null):Array<Hero>;
@@ -49,7 +49,7 @@ class Character
 	}
 	
 	// ---------- setup ----------
-	public function setHerosArray(array:Array<Dynamic>):Character {
+	public function setHerosArray(array:Array<Dynamic>):Hunter {
 		//TODO либо запрещать менять после иницилазиации , либо как-то обрабатывать ситуацию когда к нему уже было обращение
 		heroes = cast array;
 		return this;

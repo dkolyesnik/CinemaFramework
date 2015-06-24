@@ -15,8 +15,8 @@ class Episode
 	@:allow(cinema.Story)
 	private function _initialize(story:Story):Void {
 		_story = story;
-		for (character in _characters) {
-			_story._addCharacter(character);
+		for (hunter in _hunters) {
+			_story._addHunter(hunter);
 		}
 	}
 	
@@ -33,12 +33,12 @@ class Episode
 		
 	}
 	
-	private function _createCharacter(roleClass:Class<Role>, heroesArray:Array<Dynamic> = null):Character {
-		var character = new Character(roleClass, heroesArray);
-		_characters.push(character);
-		return character;
+	private function _createHunter(roleClass:Class<Role>, heroesArray:Array<Dynamic> = null):Hunter {
+		var hunter = new Hunter(roleClass, heroesArray);
+		_hunters.push(hunter);
+		return hunter;
 	}
 	
 	private var _story:Story;
-	private var _characters:Array<Character> = [];
+	private var _hunters:Array<Hunter> = [];
 }

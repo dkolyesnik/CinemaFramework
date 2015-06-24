@@ -21,7 +21,7 @@ class Actor
 	@:allow(cinema.Story)
 	private function _onRemove():Void {
 		for (hero in _heroes) {
-			_story._removeHeroFromCharacters(hero);
+			_story._removeHeroFromHunters(hero);
 		}
 		_destroy();
 	}

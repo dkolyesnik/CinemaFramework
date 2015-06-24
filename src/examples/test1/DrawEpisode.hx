@@ -1,5 +1,5 @@
 package examples.test1;
-import cinema.Character;
+import cinema.Hunter;
 import cinema.properties.IntProperty;
 import openfl.display.Sprite;
 import cinema.Episode;
@@ -10,7 +10,7 @@ import cinema.Episode;
  */
 class DrawEpisode extends Episode
 {
-	public var renderObjectCharacter:Character;
+	public var renderObjectHunter:Hunter;
 	
 	private var _renderObjects:Array<RenderObjectHero> = [];
 	
@@ -18,7 +18,7 @@ class DrawEpisode extends Episode
 	{
 		super();
 		_episode = main;
-		renderObjectCharacter = _createCharacter(RenderObjectRole, _renderObjects);
+		renderObjectHunter = _createHunter(RenderObjectRole, _renderObjects);
 	}
 	
 	override public function update(dt:Float):Void 

@@ -1,5 +1,5 @@
 package examples.test1;
-import cinema.Character;
+import cinema.Hunter;
 import cinema.Hero;
 import cinema.Episode;
 
@@ -9,7 +9,7 @@ import cinema.Episode;
  */
 class MoveEpisode extends Episode
 {
-	public var moveableCharacter:Character;
+	public var moveableHunter:Hunter;
 	
 	private var _movebleObjects:Array<MoverHero> = [];
 	
@@ -17,7 +17,7 @@ class MoveEpisode extends Episode
 	{
 		super();
 		
-		moveableCharacter = _createCharacter(MoverRole, _movebleObjects);
+		moveableHunter = _createHunter(MoverRole, _movebleObjects);
 	}
 	
 	override public function update(dt:Float):Void 
