@@ -19,9 +19,14 @@ class RandomActionEpisode extends Episode
 	public function new(chance:Int, foo:Actor->Void) 
 	{
 		super();
-		hunter = _createHunter(RenderObjectRole);
+		
 		_chance = chance;
 		_foo = foo;
+	}
+	
+	override function _setupHunters():Void 
+	{
+		hunter = _createHunter(RenderObjectRole);
 	}
 	
 	override public function update(dt:Float):Void 

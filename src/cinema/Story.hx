@@ -16,6 +16,7 @@ class Story
 	 * 
 	 * добавить базовых героев для частых случаем PositionHero , SpatialHero и тд
 	 * 
+	 * добавить вложенных героев...
 	 */
 	
 	public function new() 
