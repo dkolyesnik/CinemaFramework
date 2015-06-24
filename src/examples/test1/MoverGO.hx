@@ -1,13 +1,13 @@
 package examples.test1;
-import cinema.Actor;
-import cinema.Hero;
+import cinema.Entity;
+import cinema.GameObject;
 import cinema.properties.IntProperty;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class MoverHero extends Hero
+class MoverGO extends GameObject
 {
 	private var _xProperty:IntProperty;
 	private var _yProperty:IntProperty;
@@ -37,7 +37,7 @@ class MoverHero extends Hero
 	
 	override function _readProperties():Void 
 	{
-		_xProperty = cast(actor.getProperty("x"));
-		_yProperty = cast actor.getProperty("y");
+		_xProperty = cast(entity.getProperty("x"));
+		_yProperty = cast entity.getProperty("y");
 	}
 }

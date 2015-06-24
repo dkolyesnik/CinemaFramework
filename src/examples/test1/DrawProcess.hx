@@ -1,24 +1,28 @@
 package examples.test1;
-import cinema.Character;
+import cinema.Selector;
 import cinema.properties.IntProperty;
 import openfl.display.Sprite;
-import cinema.Episode;
+import cinema.Process;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class DrawEpisode extends Episode
+class DrawProcess extends Process
 {
-	public var renderObjectCharacter:Character;
+	public var renderObjectSelector:Selector;
 	
-	private var _renderObjects:Array<RenderObjectHero> = [];
+	private var _renderObjects:Array<RenderObjectGO> = [];
 	
 	public function new(main:Sprite) 
 	{
 		super();
-		_episode = main;
-		renderObjectCharacter = _createCharacter(RenderObjectRole, _renderObjects);
+		_spr = main;
+		
+	}
+	override function _initializeSelectors():Void 
+	{
+		renderObjectSelector = _createSelector(RenderObjectGODef, _renderObjects);
 	}
 	
 	override public function update(dt:Float):Void 
@@ -28,9 +32,9 @@ class DrawEpisode extends Episode
 		for (renderObject in _renderObjects) {
 			_episode.graphics.drawCircle(renderObject.x, renderObject.y, renderObject.radius);
 		}
-		_episode.graphics.endFill();
+		_spr.graphics.endFill();
 	}
 	
 	
-	private var _episode:Sprite;
+	private var _spr:Sprite;
 }

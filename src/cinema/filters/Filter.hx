@@ -1,5 +1,5 @@
 package cinema.filters;
-import cinema.Actor;
+import cinema.Entity;
 import cinema.Tag;
 
 /**
@@ -25,9 +25,9 @@ class Filter implements IFilterSetup
 		return this;
 	}
 	
-	public function check(actor:Actor):Bool {
+	public function check(entity:Entity):Bool {
 		for (condition in _conditions) {
-			if (!condition.check(actor)) {
+			if (!condition.check(entity)) {
 				return false;
 			}
 		}

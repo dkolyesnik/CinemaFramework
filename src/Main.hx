@@ -1,9 +1,9 @@
 package;
 
 import cinema.properties.IntProperty;
-import examples.test1.DrawEpisode;
-import examples.test1.MoveEpisode;
-import examples.test1.RandomActionEpisode;
+import examples.test1.DrawProcess;
+import examples.test1.MoveProcess;
+import examples.test1.RandomActionProcess;
 import examples.test1.Test1;
 import openfl.display.FPS;
 import openfl.display.Sprite;

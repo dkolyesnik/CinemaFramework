@@ -4,7 +4,7 @@ package cinema;
  * ...
  * @author Kolyesnik D.V.
  */
-class Role
+class GameObjectDef
 {
 	public var requirements(default, null):Array<String>;
 	
@@ -17,11 +17,11 @@ class Role
 		requirements = [];
 	}
 	
-	public function createHero(actor:Actor):Hero {
-		return _heroCunstructor().initialize(actor, this);
+	public function createGO(entity:Entity):GameObject {
+		return _goConstructor().initialize(entity, this);
 	}
 	
-	private function _heroCunstructor():Hero {
-		return new Hero();
+	private function _goConstructor():GameObject {
+		return new GameObject();
 	}
 }

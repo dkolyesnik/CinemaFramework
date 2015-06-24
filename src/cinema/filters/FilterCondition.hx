@@ -1,5 +1,5 @@
 package cinema.filters;
-import cinema.Actor;
+import cinema.Entity;
 
 /**
  * ...
@@ -13,7 +13,7 @@ class FilterCondition
 		
 	}
 	
-	public function check(actor:Actor):Bool {
+	public function check(entity:Entity):Bool {
 		return false;
 	}
 	

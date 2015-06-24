@@ -1,10 +1,10 @@
 package examples.test1;
-import cinema.Actor;
+import cinema.Entity;
 import cinema.properties.IntProperty;
 import examples.Test;
 import openfl.display.Sprite;
 import openfl.events.Event;
-import cinema.Story;
+import cinema.Core;
 
 /**
  * ...
@@ -21,40 +21,40 @@ class Test1 extends Test
 		super.start(params);
 		
 		
-		var drawEpisode:DrawEpisode = new DrawEpisode(_layer);
-		drawEpisode.renderObjectCharacter.selectActors.noTags(["invisible"]);
-		_story.addEpisode(drawEpisode);
+		var drawProcess:DrawProcess = new DrawProcess(_layer);
+		drawProcess.renderObjectSelector.selectEntitys.noTags(["invisible"]);
+		_core.addProcess(drawProcess);
 		
-		_story.addEpisode(new MoveEpisode());
+		_core.addProcess(new MoveProcess());
 		
-		var randomHide:RandomActionEpisode = new RandomActionEpisode(90, hideActor);
-		randomHide.character.selectActors.noTags(["invisible"]);
-		_story.addEpisode(randomHide);
+		var randomHide:RandomActionProcess = new RandomActionProcess(90, hideEntity);
+		randomHide.selector.selectEntitys.noTags(["invisible"]);
+		_core.addProcess(randomHide);
 		
-		var randomShow:RandomActionEpisode = new RandomActionEpisode(90, showActor);
-		randomShow.character.selectActors.withTags(["invisible"]);
-		_story.addEpisode(randomShow);
+		var randomShow:RandomActionProcess = new RandomActionProcess(90, showEntity);
+		randomShow.selector.selectEntitys.withTags(["invisible"]);
+		_core.addProcess(randomShow);
 		
 		
 		for (i in 0...1000) {
-			_hireActor();
+			_hireEntity();
 		}
-		_story.begin();
+		_core.begin();
 	}
 	
-	private function hideActor(actor:Actor):Void {
-		actor.addTag("invisible");
+	private function hideEntity(entity:Entity):Void {
+		entity.addTag("invisible");
 	}
 	
-	private function showActor(actor:Actor):Void {
-		actor.removeTag("invisible");
+	private function showEntity(entity:Entity):Void {
+		entity.removeTag("invisible");
 	}
 	
 	//misc
-	private function _hireActor():Void {
-		var actor:Actor = _story.hireActor();
-		actor.addProperty("x", new IntProperty(Std.int(Math.random() * 700 + 50)));
-		actor.addProperty("y", new IntProperty(Std.int(Math.random() * 500 + 50)));
-		actor.addProperty("radius", new IntProperty(10));
+	private function _hireEntity():Void {
+		var entity:Entity = _core.allocateEntity();
+		entity.addProperty("x", new IntProperty(Std.int(Math.random() * 700 + 50)));
+		entity.addProperty("y", new IntProperty(Std.int(Math.random() * 500 + 50)));
+		entity.addProperty("radius", new IntProperty(10));
 	}
 }

@@ -4,7 +4,7 @@ import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import cinema.Story;
+import cinema.Core;
 
 /**
  * ...
@@ -12,7 +12,7 @@ import cinema.Story;
  */
 class Test
 {
-	private var _story:Story;
+	private var _core:Core;
 	private var _main:Sprite;
 	private var _bg:Sprite;
 	private var _layer:Sprite;
@@ -33,17 +33,17 @@ class Test
 		_bg.addChild(_closeBtn = createCloseBtn());
 		_main.addChild(_bg);
 		_bg.addEventListener(Event.ENTER_FRAME, update);
-		_story = new Story();
+		_core = new Core();
 	}
 	
 	private function update(e:Event):Void 
 	{
-		_story.update(1);
+		_core.update(1);
 	}
 	
 	private function close(event:Event):Void {
 		_closeBtn.removeEventListener(MouseEvent.CLICK, close);
-		_story.end();
+		_core.end();
 		_bg.removeEventListener(Event.ENTER_FRAME, update);
 		_bg.parent.removeChild(_bg);
 	}

@@ -5,7 +5,7 @@ import cinema.properties.Property;
  * ...
  * @author Kolyesnik D.V.
  */
-class Actor
+class Entity
 {
 
 	public function new() 
@@ -13,26 +13,26 @@ class Actor
 		
 	} 
 	
-	@:allow(cinema.Story)
-	private function _initialize(story:Story):Void {
-		_story = story;
+	@:allow(cinema.Core)
+	private function _initialize(core:Core):Void {
+		_core = core;
 	}
 	
-	@:allow(cinema.Story)
+	@:allow(cinema.Core)
 	private function _onRemove():Void {
-		for (hero in _heroes) {
-			_story._removeHeroFromCharacters(hero);
+		for (go in _goes) {
+			_core._removeGOFromSelectors(go);
 		}
 		_destroy();
 	}
 	
 	/**
-	  Called when story is ended
+	  Called when core is ended
 	**/
-	@:allow(cinema.Story)
+	@:allow(cinema.Core)
 	private function _destroy():Void {
-		_story = null;
-		_heroes = null;
+		_core = null;
+		_goes = null;
 		_tags = null;
 		_removeAllPropertiesOnDestroy();
 	}
@@ -51,8 +51,8 @@ class Actor
 			_properties[propertyName] = property;
 			property._onAdd(this);
 		}
-		if (_story != null) {
-			_story._actorRecievedProperty(this);
+		if (_core != null) {
+			_core._entityRecievedProperty(this);
 		}
 	}
 	
@@ -79,9 +79,9 @@ class Actor
 			_properties.remove(propertyName);
 		}
 		
-		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorLostProperty(hero);
+		if (_core != null) {
+			for (go in _goes) {
+				_core._entityLostProperty(go);
 			}
 		}
 	}
@@ -102,9 +102,9 @@ class Actor
 		}
 		_tags.push(tag);
 		//TODO предупредить всех об измеениях
-		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorTagsModified(hero);
+		if (_core != null) {
+			for (go in _goes) {
+				_core._entityTagsModified(go);
 			}
 		}
 	}
@@ -126,22 +126,22 @@ class Actor
 			}
 		}
 		//TODO предупредить всех об измеениях
-		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorTagsModified(hero);
+		if (_core != null) {
+			for (go in _goes) {
+				_core._entityTagsModified(go);
 			}
 		}
 	}
-	// ---------- Heroes and Roles ----------
-	@:allow(cinema.Story)
-	private function _addHero(hero:Hero):Void {
-		_heroes.push(hero);
+	// ---------- GOes and GODefs ----------
+	@:allow(cinema.Core)
+	private function _addGO(go:GameObject):Void {
+		_goes.push(go);
 	}
 	
-	@:allow(cinema.Story)
-	private function _hasHeroForRole(role:Role):Bool {
-		for (hero in _heroes) {
-			if (hero.role == role) {
+	@:allow(cinema.Core)
+	private function _hasGOForGODef(goDef:GameObjectDef):Bool {
+		for (go in _goes) {
+			if (go.goDef == goDef) {
 				return true;
 			}
 		}
@@ -151,7 +151,7 @@ class Actor
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];
-	private var _heroes:Array<Hero> = [];
+	private var _goes:Array<GameObject> = [];
 	
-	private var _story:Story;
+	private var _core:Core;
 }

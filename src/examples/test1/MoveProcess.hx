@@ -1,23 +1,23 @@
 package examples.test1;
-import cinema.Character;
-import cinema.Hero;
-import cinema.Episode;
+import cinema.Selector;
+import cinema.GameObject;
+import cinema.Process;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class MoveEpisode extends Episode
+class MoveProcess extends Process
 {
-	public var moveableCharacter:Character;
+	public var moveableSelector:Selector;
 	
-	private var _movebleObjects:Array<MoverHero> = [];
+	private var _movebleObjects:Array<MoverGO> = [];
 	
 	public function new() 
 	{
 		super();
 		
-		moveableCharacter = _createCharacter(MoverRole, _movebleObjects);
+		moveableSelector = _createSelector(MoverGODef, _movebleObjects);
 	}
 	
 	override public function update(dt:Float):Void 

@@ -1,5 +1,5 @@
 package cinema.properties;
-import cinema.Actor;
+import cinema.Entity;
 
 /**
  * ...
@@ -13,13 +13,13 @@ class Property
 		
 	}
 	
-	@:allow(cinema.Actor)
-	private function _onAdd(actor:Actor):Void {
+	@:allow(cinema.Entity)
+	private function _onAdd(entity:Entity):Void {
 		
 	}
 	
-	@:allow(cinema.Actor)
-	private function _onRemove(actor:Actor):Void {
+	@:allow(cinema.Entity)
+	private function _onRemove(entity:Entity):Void {
 		
 	}
 }

@@ -1,14 +1,14 @@
 package examples.test1;
-import cinema.Actor;
-import cinema.Hero;
-import cinema.Role;
+import cinema.Entity;
+import cinema.GameObject;
+import cinema.GameObjectDef;
 
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class MoverRole extends Role
+class MoverGODef extends GameObjectDef
 {
 
 	public function new() 
@@ -21,9 +21,9 @@ class MoverRole extends Role
 		requirements = ["x", "y"];
 	}
 	
-	override function _heroCunstructor():Hero 
+	override function _goConstructor():GameObject 
 	{
-		return new MoverHero();
+		return new MoverGO();
 	}
 	
 }

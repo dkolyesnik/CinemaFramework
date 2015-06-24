@@ -1,5 +1,5 @@
 package cinema.filters;
-import cinema.Actor;
+import cinema.Entity;
 import cinema.Tag;
 
 /**
@@ -15,10 +15,10 @@ class WithTagsFilterCondition extends FilterCondition
 		_tags = tags;
 	}
 	
-	override public function check(actor:Actor):Bool 
+	override public function check(entity:Entity):Bool 
 	{
 		for (i in 0..._tags.length) {
-			if (actor.hasTag(_tags[i])) {
+			if (entity.hasTag(_tags[i])) {
 				return true;
 			}
 		}
