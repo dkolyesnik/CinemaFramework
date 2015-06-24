@@ -1,6 +1,7 @@
 package examples.test1;
 import cinema.Hunter;
 import cinema.properties.IntProperty;
+import cinema.Story;
 import openfl.display.Sprite;
 import cinema.Episode;
 
@@ -14,9 +15,9 @@ class DrawEpisode extends Episode
 	
 	private var _renderObjects:Array<RenderObjectHero> = [];
 	
-	public function new(main:Sprite) 
+	public function new(p_story:Story, main:Sprite) 
 	{
-		super();
+		super(p_story);
 		_spr = main;
 	}
 	
@@ -27,12 +28,12 @@ class DrawEpisode extends Episode
 	
 	override public function update(dt:Float):Void 
 	{
-		_episode.graphics.clear();
-		_episode.graphics.beginFill(0x004080);
+		_spr.graphics.clear();
+		_spr.graphics.beginFill(0x004080);
 		for (renderObject in _renderObjects) {
-			_episode.graphics.drawCircle(renderObject.x, renderObject.y, renderObject.radius);
+			_spr.graphics.drawCircle(renderObject.x, renderObject.y, renderObject.radius);
 		}
-		_episode.graphics.endFill();
+		_spr.graphics.endFill();
 	}
 	
 	

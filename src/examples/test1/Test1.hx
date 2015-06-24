@@ -21,19 +21,19 @@ class Test1 extends Test
 		super.start(params);
 		
 		
-		var drawEpisode:DrawEpisode = new DrawEpisode(_layer);
-		drawEpisode.renderObjectCharacter.selectActors.noTags(["invisible"]);
-		_story.addEpisode(drawEpisode);
+		var drawEpisode:DrawEpisode = new DrawEpisode(_story, _layer);
+		drawEpisode.renderObjectHunter.selectActors.noTags(["invisible"]);
+		drawEpisode.initialize();
 		
-		_story.addEpisode(new MoveEpisode());
+		new MoveEpisode(_story).initialize();
 		
-		var randomHide:RandomActionEpisode = new RandomActionEpisode(90, hideActor);
-		randomHide.character.selectActors.noTags(["invisible"]);
-		_story.addEpisode(randomHide);
+		var randomHide:RandomActionEpisode = new RandomActionEpisode(_story, 90, hideActor);
+		randomHide.hunter.selectActors.noTags(["invisible"]);
+		randomHide.initialize();
 		
-		var randomShow:RandomActionEpisode = new RandomActionEpisode(90, showActor);
-		randomShow.character.selectActors.withTags(["invisible"]);
-		_story.addEpisode(randomShow);
+		var randomShow:RandomActionEpisode = new RandomActionEpisode(_story, 90, showActor);
+		randomShow.hunter.selectActors.withTags(["invisible"]);
+		randomShow.initialize();
 		
 		
 		for (i in 0...1000) {

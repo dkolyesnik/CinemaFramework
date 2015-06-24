@@ -55,13 +55,13 @@ class Story
 		_hasBegan = false;
 	}
 	
-	// ---------- Scenarios ----------
-	public function addEpisode(episode:Episode):Void {
+	// ---------- Episodes ----------
+	@:allow(cinema.Episode)
+	private function _addEpisode(episode:Episode):Void {
 		if (_hasBegan) {
 			return;
 		}
 		_episodes.push(episode);
-		episode._initialize(this);
 	}
 	
 	// ---------- Actors ----------

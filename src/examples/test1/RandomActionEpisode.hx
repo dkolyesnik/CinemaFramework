@@ -4,6 +4,7 @@ import cinema.Actor;
 import cinema.Hunter;
 import cinema.Hero;
 import cinema.Episode;
+import cinema.Story;
 
 /**
  * ...
@@ -16,9 +17,9 @@ class RandomActionEpisode extends Episode
 	private var _chance:Int;
 	private var _foo:Actor->Void;
 	
-	public function new(chance:Int, foo:Actor->Void) 
+	public function new(p_story:Story, chance:Int, foo:Actor->Void) 
 	{
-		super();
+		super(p_story);
 		
 		_chance = chance;
 		_foo = foo;
