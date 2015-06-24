@@ -17,6 +17,11 @@ class MoveEpisode extends Episode
 	{
 		super();
 		
+		
+	}
+	
+	override function _setupHunters():Void 
+	{
 		moveableHunter = _createHunter(MoverRole, _movebleObjects);
 	}
 	

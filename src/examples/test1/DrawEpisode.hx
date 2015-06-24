@@ -17,7 +17,11 @@ class DrawEpisode extends Episode
 	public function new(main:Sprite) 
 	{
 		super();
-		_episode = main;
+		_spr = main;
+	}
+	
+	override function _setupHunters():Void 
+	{
 		renderObjectHunter = _createHunter(RenderObjectRole, _renderObjects);
 	}
 	
@@ -32,5 +36,5 @@ class DrawEpisode extends Episode
 	}
 	
 	
-	private var _episode:Sprite;
+	private var _spr:Sprite;
 }

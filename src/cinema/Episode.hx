@@ -9,6 +9,10 @@ class Episode
 
 	public function new() 
 	{
+		_setupHunters();
+	}
+	
+	private function _setupHunters():Void {
 		
 	}
 	
