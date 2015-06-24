@@ -21,19 +21,19 @@ class Test1 extends Test
 		super.start(params);
 		
 		
-		var drawEpisode:DrawEpisode = new DrawEpisode(_story, _layer);
-		drawEpisode.renderObjectHunter.selectActors.noTags(["invisible"]);
-		drawEpisode.initialize();
+		var drawEpisode:DrawEpisode = new DrawEpisode(_layer);
+		drawEpisode.renderObjectHunter.filter.noTags(["invisible"]);
+		_story.addEpisode(drawEpisode);
 		
-		new MoveEpisode(_story).initialize();
+		_story.addEpisode(new MoveEpisode());
 		
-		var randomHide:RandomActionEpisode = new RandomActionEpisode(_story, 90, hideActor);
-		randomHide.hunter.selectActors.noTags(["invisible"]);
-		randomHide.initialize();
+		var randomHide:RandomActionEpisode = new RandomActionEpisode(90, hideActor);
+		randomHide.hunter.filter.noTags(["invisible"]);
+		_story.addEpisode(randomHide);
 		
-		var randomShow:RandomActionEpisode = new RandomActionEpisode(_story, 90, showActor);
-		randomShow.hunter.selectActors.withTags(["invisible"]);
-		randomShow.initialize();
+		var randomShow:RandomActionEpisode = new RandomActionEpisode(90, showActor);
+		randomShow.hunter.filter.withTags(["invisible"]);
+		_story.addEpisode(randomShow);
 		
 		
 		for (i in 0...1000) {
@@ -52,7 +52,7 @@ class Test1 extends Test
 	
 	//misc
 	private function _hireActor():Void {
-		var actor:Actor = _story.hireActor();
+		var actor:Actor = _story.createActor();
 		actor.addProperty("x", new IntProperty(Std.int(Math.random() * 700 + 50)));
 		actor.addProperty("y", new IntProperty(Std.int(Math.random() * 500 + 50)));
 		actor.addProperty("radius", new IntProperty(10));

@@ -17,9 +17,9 @@ class RandomActionEpisode extends Episode
 	private var _chance:Int;
 	private var _foo:Actor->Void;
 	
-	public function new(p_story:Story, chance:Int, foo:Actor->Void) 
+	public function new(chance:Int, foo:Actor->Void) 
 	{
-		super(p_story);
+		super();
 		
 		_chance = chance;
 		_foo = foo;

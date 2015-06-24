@@ -15,9 +15,9 @@ class DrawEpisode extends Episode
 	
 	private var _renderObjects:Array<RenderObjectHero> = [];
 	
-	public function new(p_story:Story, main:Sprite) 
+	public function new(main:Sprite) 
 	{
-		super(p_story);
+		super();
 		_spr = main;
 	}
 	

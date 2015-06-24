@@ -7,9 +7,8 @@ package cinema;
 class Episode
 {
 
-	public function new(p_story:Story)
+	public function new()
 	{
-		_story = p_story;
 		_setupHunters();
 	}
 	
@@ -17,24 +16,21 @@ class Episode
 		
 	}
 	
-	
-	public function initialize():Void {
-		_story._addEpisode(this);
+	@:allow(cinema.Story)
+	private function _initialize(story:Story):Void {
+		_story = story;
+		for (hunter in _hunters) {
+			_story._addHunter(hunter);
+		}
 	}
-	//@:allow(cinema.Story)
-	//private function _initialize(story:Story):Void {
-		//_story = story;
-		//for (hunter in _hunters) {
-			//_story._addHunter(hunter);
-		//}
-	//}
 	
 	/* called when story is ended
 	 * rough deleting everithng
 	 */
 	@:allow(cinema.Story)
 	private function _destroy():Void {
-		
+		_hunters = null;
+		_story = null;
 	}
 	
 	//RENAME
@@ -45,7 +41,6 @@ class Episode
 	private function _createHunter(roleClass:Class<Role>, heroesArray:Array<Dynamic> = null):Hunter {
 		var hunter = new Hunter(roleClass, heroesArray);
 		_hunters.push(hunter);
-		_story._addHunter(hunter);
 		return hunter;
 	}
 	

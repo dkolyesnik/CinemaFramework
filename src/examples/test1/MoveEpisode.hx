@@ -14,10 +14,9 @@ class MoveEpisode extends Episode
 	
 	private var _movebleObjects:Array<MoverHero> = [];
 	
-	public function new(p_story:Story) 
+	public function new() 
 	{
-		super(p_story);
-		
+		super();
 		
 	}
 	
