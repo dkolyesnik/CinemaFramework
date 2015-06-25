@@ -20,8 +20,8 @@ class Actor
 	
 	@:allow(cinema.Story)
 	private function _onRemove():Void {
-		for (hero in _heroes) {
-			_story._removeHeroFromHunters(hero);
+		for (roleObject in _roleObjectes) {
+			_story._removeRoleObjectFromHunters(roleObject);
 		}
 		_destroy();
 	}
@@ -32,7 +32,7 @@ class Actor
 	@:allow(cinema.Story)
 	private function _destroy():Void {
 		_story = null;
-		_heroes = null;
+		_roleObjectes = null;
 		_tags = null;
 		_removeAllPropertiesOnDestroy();
 	}
@@ -80,8 +80,8 @@ class Actor
 		}
 		
 		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorLostProperty(hero);
+			for (roleObject in _roleObjectes) {
+				_story._actorLostProperty(roleObject);
 			}
 		}
 	}
@@ -103,8 +103,8 @@ class Actor
 		_tags.push(tag);
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorTagsModified(hero);
+			for (roleObject in _roleObjectes) {
+				_story._actorTagsModified(roleObject);
 			}
 		}
 	}
@@ -127,21 +127,21 @@ class Actor
 		}
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorTagsModified(hero);
+			for (roleObject in _roleObjectes) {
+				_story._actorTagsModified(roleObject);
 			}
 		}
 	}
-	// ---------- Heroes and Roles ----------
+	// ---------- RoleObjectes and Roles ----------
 	@:allow(cinema.Story)
-	private function _addHero(hero:Hero):Void {
-		_heroes.push(hero);
+	private function _addRoleObject(roleObject:RoleObject):Void {
+		_roleObjectes.push(roleObject);
 	}
 	
 	@:allow(cinema.Story)
-	private function _hasHeroForRole(role:Role):Bool {
-		for (hero in _heroes) {
-			if (hero.role == role) {
+	private function _hasRoleObjectForRole(role:Role):Bool {
+		for (roleObject in _roleObjectes) {
+			if (roleObject.role == role) {
 				return true;
 			}
 		}
@@ -151,7 +151,7 @@ class Actor
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];
-	private var _heroes:Array<Hero> = [];
+	private var _roleObjectes:Array<RoleObject> = [];
 	
 	private var _story:Story;
 }

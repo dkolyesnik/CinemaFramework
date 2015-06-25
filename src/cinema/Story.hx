@@ -14,7 +14,7 @@ class Story
 	 * добавить инфу для дебага, количество сущностей, пиковое количество суностей 
 	 * дополнительные проверки, возможно какое-то логирование 
 	 * 
-	 * добавить базовых героев для частых случаем PositionHero , SpatialHero и тд
+	 * добавить базовых героев для частых случаем PositionRoleObject , SpatialRoleObject и тд
 	 * 
 	 * добавить вложенных героев...
 	 */
@@ -81,14 +81,14 @@ class Story
 		//TODO = optimize
 		actor._initialize(this);
 		var huntersArray:Array<Hunter>;
-		var hero:Hero;
+		var roleObject:RoleObject;
 		for (role in _rolesByClassName) {
 			if (actor.hasProperties(role.requirements)) {
-				hero = role.createHero(actor);
-				actor._addHero(hero);
+				roleObject = role.createRoleObject(actor);
+				actor._addRoleObject(roleObject);
 				huntersArray = _huntersByRole.get(role);
 				for (hunter in huntersArray) {
-					hunter._tryToAddHero(hero);
+					hunter._tryToAddRoleObject(roleObject);
 				}
 			}
 		}
@@ -98,42 +98,42 @@ class Story
 	private function _actorRecievedProperty(actor:Actor):Void {
 		var hunters:Array<Hunter>;
 		var role:Role;
-		var hero:Hero;
+		var roleObject:RoleObject;
 		for (role in _rolesByClassName) {
-			if (actor.hasProperties(role.requirements) && !actor._hasHeroForRole(role)) {
-				hero = role.createHero(actor);
-				actor._addHero(hero);
+			if (actor.hasProperties(role.requirements) && !actor._hasRoleObjectForRole(role)) {
+				roleObject = role.createRoleObject(actor);
+				actor._addRoleObject(roleObject);
 				hunters = _huntersByRole.get(role);
 				for (hunter in hunters) {
-					hunter._tryToAddHero(hero);
+					hunter._tryToAddRoleObject(roleObject);
 				}
 			}
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _actorLostProperty(hero:Hero):Void {
-		if (!hero.actor.hasProperties(hero.role.requirements)) {
-			var huntersArray = _huntersByRole.get(hero.role);
+	private function _actorLostProperty(roleObject:RoleObject):Void {
+		if (!roleObject.actor.hasProperties(roleObject.role.requirements)) {
+			var huntersArray = _huntersByRole.get(roleObject.role);
 			for (hunter in huntersArray) {
-				hunter._removeHero(hero);
+				hunter._removeRoleObject(roleObject);
 			}
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _actorTagsModified(hero:Hero):Void {
-		var huntersArray = _huntersByRole.get(hero.role);
+	private function _actorTagsModified(roleObject:RoleObject):Void {
+		var huntersArray = _huntersByRole.get(roleObject.role);
 		for (hunter in huntersArray) {
-			hunter._checkHeroAfterUpdate(hero);
+			hunter._checkRoleObjectAfterUpdate(roleObject);
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _removeHeroFromHunters(hero:Hero):Void {
-		var huntersArray = _huntersByRole.get(hero.role);
+	private function _removeRoleObjectFromHunters(roleObject:RoleObject):Void {
+		var huntersArray = _huntersByRole.get(roleObject.role);
 		for (hunter in huntersArray) {
-			hunter._removeHero(hero);
+			hunter._removeRoleObject(roleObject);
 		}
 	}
 		

@@ -20,8 +20,9 @@ class Test1 extends Test
 	override public function start(params:Dynamic):Void {
 		super.start(params);
 		
+		_story = new Story();
 		
-		var drawEpisode:DrawEpisode = new DrawEpisode(_layer);
+		var drawEpisode:DrawEpisode = new DrawEpisode(_storyLayer);
 		drawEpisode.renderObjectHunter.filter.noTags(["invisible"]);
 		_story.addEpisode(drawEpisode);
 		

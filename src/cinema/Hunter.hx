@@ -8,44 +8,44 @@ import cinema.filters.Filter;
 class Hunter
 {
 	public var roleClass(default, null):Class<Role>;
-	public var heroes(default, null):Array<Hero>;
+	public var roleObjectes(default, null):Array<RoleObject>;
 	
 	//TODO возможно стоит дать возможность задавать фильр чтобы давать возможность использовать фильтры повторно
-	public function new(p_roleClass:Class<Role> = null, p_heroes:Array<Dynamic> = null) 
+	public function new(p_roleClass:Class<Role> = null, p_roleObjectes:Array<Dynamic> = null) 
 	{
 		roleClass = p_roleClass;
-		if (p_heroes == null)
-			heroes = [];
+		if (p_roleObjectes == null)
+			roleObjectes = [];
 		else
-			heroes = cast p_heroes;
-		if (heroes.length >= 0) {
+			roleObjectes = cast p_roleObjectes;
+		if (roleObjectes.length >= 0) {
 			//TODO error in should be empty
 		}
 		filter = new Filter();
 	}
 	
 	
-	// ---------- Hero ----------
+	// ---------- RoleObject ----------
 	@:allow(cinema.Story)
-	private function _tryToAddHero(hero:Hero):Void {
-		if (filter.check(hero.actor)) {
-			heroes.push(hero);
+	private function _tryToAddRoleObject(roleObject:RoleObject):Void {
+		if (filter.check(roleObject.actor)) {
+			roleObjectes.push(roleObject);
 		}
 	}
 	
 	@:allow(cinema.Story)
-	private function _checkHeroAfterUpdate(p_hero:Hero):Void {
-		if (filter.check(p_hero.actor)) {
-			if (heroes.indexOf(p_hero) == -1) 
-				heroes.push(p_hero);
+	private function _checkRoleObjectAfterUpdate(p_roleObject:RoleObject):Void {
+		if (filter.check(p_roleObject.actor)) {
+			if (roleObjectes.indexOf(p_roleObject) == -1) 
+				roleObjectes.push(p_roleObject);
 		}else {
-			_removeHero(p_hero);
+			_removeRoleObject(p_roleObject);
 		}
 	}
 	
 	@:allow(cinema.Story)
-	private function _removeHero(p_hero:Hero):Void {
-		heroes.remove(p_hero);
+	private function _removeRoleObject(p_roleObject:RoleObject):Void {
+		roleObjectes.remove(p_roleObject);
 	}
 	
 	// ---------- setup ----------
@@ -54,9 +54,9 @@ class Hunter
 		return this;
 	}
 	
-	public function setHerosArray(array:Array<Dynamic>):Hunter {
+	public function setRoleObjectsArray(array:Array<Dynamic>):Hunter {
 		//TODO либо запрещать менять после иницилазиации , либо как-то обрабатывать ситуацию когда к нему уже было обращение
-		heroes = cast array;
+		roleObjectes = cast array;
 		return this;
 	}
 	

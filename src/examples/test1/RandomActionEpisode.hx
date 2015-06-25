@@ -2,7 +2,7 @@ package examples.test1;
 
 import cinema.Actor;
 import cinema.Hunter;
-import cinema.Hero;
+import cinema.RoleObject;
 import cinema.Episode;
 import cinema.Story;
 
@@ -27,15 +27,15 @@ class RandomActionEpisode extends Episode
 	
 	override function _setupHunters():Void 
 	{
-		hunter = _createHunter(RenderObjectRole);
+		hunter = _createHunter(RenderRole);
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		var array:Array<Hero> = hunter.heroes;
-		for (hero in array) {
+		var array:Array<RoleObject> = hunter.roleObjectes;
+		for (roleObject in array) {
 			if (Math.random() * 100 > _chance) {
-				_foo(hero.actor);
+				_foo(roleObject.actor);
 			}
 		}
 	}

@@ -8,7 +8,7 @@ import cinema.Role;
  * ...
  * @author Kolyesnik D.V.
  */
-class MoverRole extends Role
+class PositionRole extends Role
 {
 
 	public function new() 
@@ -23,7 +23,7 @@ class MoverRole extends Role
 	
 	override function _roleObjectConstructor():RoleObject 
 	{
-		return new MoverRO();
+		return new PositionRole();
 	}
 	
 }

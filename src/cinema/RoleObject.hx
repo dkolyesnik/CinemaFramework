@@ -4,7 +4,7 @@ package cinema;
  * ...
  * @author Kolyesnik D.V.
  */
-class Hero
+class RoleObject
 {
 	public var actor(default, null):Actor;
 	public var role(default, null):Role;
@@ -14,7 +14,8 @@ class Hero
 	}
 	
 	//TODO either remove either rename
-	public function initialize(p_actor:Actor, p_role:Role):Hero {
+	@:allow(cinema.Role)
+	private function _initialize(p_actor:Actor, p_role:Role):RoleObject {
 		actor = p_actor;
 		role = p_role;
 		_readProperties();
@@ -22,6 +23,10 @@ class Hero
 	}
 	
 	private function _readProperties():Void {
+		
+	}
+	
+	private function _initializeSubRoleObjects():Void {
 		
 	}
 	

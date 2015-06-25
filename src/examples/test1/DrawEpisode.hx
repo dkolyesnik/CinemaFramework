@@ -13,7 +13,7 @@ class DrawEpisode extends Episode
 {
 	public var renderObjectHunter:Hunter;
 	
-	private var _renderObjects:Array<RenderObjectHero> = [];
+	private var _renderObjects:Array<RenderRO> = [];
 	
 	public function new(main:Sprite) 
 	{
@@ -23,7 +23,7 @@ class DrawEpisode extends Episode
 	
 	override function _setupHunters():Void 
 	{
-		renderObjectHunter = _createHunter(RenderObjectRole, _renderObjects);
+		renderObjectHunter = _createHunter(RenderRole, _renderObjects);
 	}
 	
 	override public function update(dt:Float):Void 

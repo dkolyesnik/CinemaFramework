@@ -1,6 +1,7 @@
 package;
 
 import cinema.properties.IntProperty;
+import examples.shooter.ShooterTest;
 import examples.test1.DrawEpisode;
 import examples.test1.MoveEpisode;
 import examples.test1.RandomActionEpisode;
@@ -29,6 +30,7 @@ class Main extends Sprite
 		
 		//Tests
 		addChild(createButton(100,100,"Test1",new Test1(testsLayer).start));
+		addChild(createButton(100,200,"Shooter",new ShooterTest(testsLayer).start));
 		
 		
 		
