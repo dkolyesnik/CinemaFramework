@@ -1,4 +1,4 @@
-package examples.test1;
+package examples.shooter.roles;
 import cinema.Actor;
 import cinema.RoleObject;
 import cinema.properties.IntProperty;
@@ -9,13 +9,9 @@ import cinema.properties.IntProperty;
  */
 class PositionRO extends RoleObject
 {
-	private var _xProperty:IntProperty;
-	private var _yProperty:IntProperty;
-	
-	public var y (get, set):Int;
+	// -- x property --
 	public var x (get, set):Int;
-	
-	
+	private var _xProperty:IntProperty;
 	function get_x():Int { 
 		return _xProperty.value;	
 	}
@@ -23,12 +19,17 @@ class PositionRO extends RoleObject
 	   return _xProperty.value = value;
 	}
 	
+	// -- y property --
+	public var y (get, set):Int;
+	private var _yProperty:IntProperty;
 	function get_y():Int {
 	   return _yProperty.value;
 	}
 	function set_y(value:Int):Int {
 	   return _yProperty.value = value;
 	}
+		
+	
 	
 	public function new() 
 	{
