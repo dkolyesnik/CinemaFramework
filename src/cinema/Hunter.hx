@@ -7,18 +7,18 @@ import cinema.filters.Filter;
  */
 class Hunter
 {
-	public var roleDefClass(default, null):Class<RoleDef>;
-	public var rolees(default, null):Array<Role>;
+	public var roleClass(default, null):Class<Role>;
+	public var roles(default, null):Array<Role>;
 	
 	//TODO возможно стоит дать возможность задавать фильр чтобы давать возможность использовать фильтры повторно
-	public function new(p_roleDefClass:Class<RoleDef> = null, p_rolees:Array<Dynamic> = null) 
+	public function new(p_roleClass:Class<Role> = null, p_roles:Array<Dynamic> = null) 
 	{
-		roleDefClass = p_roleDefClass;
-		if (p_rolees == null)
-			rolees = [];
+		roleClass = p_roleClass;
+		if (p_roles == null)
+			roles = [];
 		else
-			rolees = cast p_rolees;
-		if (rolees.length >= 0) {
+			roles = cast p_roles;
+		if (roles.length >= 0) {
 			//TODO error in should be empty
 		}
 		filter = new Filter();
@@ -29,15 +29,15 @@ class Hunter
 	@:allow(cinema.Story)
 	private function _tryToAddRole(role:Role):Void {
 		if (filter.check(role.actor)) {
-			rolees.push(role);
+			roles.push(role);
 		}
 	}
 	
 	@:allow(cinema.Story)
 	private function _checkRoleAfterUpdate(p_role:Role):Void {
 		if (filter.check(p_role.actor)) {
-			if (rolees.indexOf(p_role) == -1) 
-				rolees.push(p_role);
+			if (roles.indexOf(p_role) == -1) 
+				roles.push(p_role);
 		}else {
 			_removeRole(p_role);
 		}
@@ -45,18 +45,18 @@ class Hunter
 	
 	@:allow(cinema.Story)
 	private function _removeRole(p_role:Role):Void {
-		rolees.remove(p_role);
+		roles.remove(p_role);
 	}
 	
 	// ---------- setup ----------
-	public function setRoleDefClass(p_roleDefClass:Class<RoleDef>):Hunter {
-		roleDefClass = p_roleDefClass;
+	public function setRoleDefClass(p_roleClass:Class<Role>):Hunter {
+		roleClass = p_roleClass;
 		return this;
 	}
 	
 	public function setRolesArray(array:Array<Dynamic>):Hunter {
 		//TODO либо запрещать менять после иницилазиации , либо как-то обрабатывать ситуацию когда к нему уже было обращение
-		rolees = cast array;
+		roles = cast array;
 		return this;
 	}
 	

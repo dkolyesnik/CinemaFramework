@@ -105,13 +105,12 @@ class Story
 	@:allow(cinema.Actor)
 	private function _actorRecievedProperty(actor:Actor):Void {
 		var hunters:Array<Hunter>;
-		var roleDef:RoleDef;
 		var role:Role;
-		for (roleDef in _roleDefsByClassName) {
-			if (actor.hasProperties(roleDef.requirements) && !actor._hasRoleForRoleDef(roleDef)) {
-				role = roleDef.createRole(actor);
+		for (role in _rolesByClassName) {
+			if (role.checkRequirements(actor) && !actor._hasRole(role)) {
+				role = role.createRole(actor);
 				actor._addRole(role);
-				hunters = _huntersByRoleDef.get(roleDef);
+				hunters = _huntersByRole.get(role);
 				for (hunter in hunters) {
 					hunter._tryToAddRole(role);
 				}
@@ -120,9 +119,17 @@ class Story
 	}
 	
 	@:allow(cinema.Actor)
+	private function _removeRoleFromHunters(role:Role):Void {
+		var huntersArray = _huntersByRole.get(role);
+		for (hunter in huntersArray) {
+			hunter._removeRole(role);
+		}
+	}
+	
+	@:allow(cinema.Actor)
 	private function _actorLostProperty(role:Role):Void {
-		if (!role.actor.hasProperties(role.roleDef.requirements)) {
-			var huntersArray = _huntersByRoleDef.get(role.roleDef);
+		if (!role.checkRequirements(role.actor)) {
+			var huntersArray = _huntersByRole.get(role);
 			for (hunter in huntersArray) {
 				hunter._removeRole(role);
 			}
@@ -139,7 +146,7 @@ class Story
 	
 	@:allow(cinema.Actor)
 	private function _removeRoleFromHunters(role:Role):Void {
-		var huntersArray = _huntersByRoleDef.get(role.roleDef);
+		var huntersArray = _huntersByRole.get(role);
 		for (hunter in huntersArray) {
 			hunter._removeRole(role);
 		}
@@ -159,8 +166,8 @@ class Story
 	}
 	
 	@:allow(cinema.Episode)
-	private function _getRoleDefByClass(roleDefClass:Class<RoleDef>):RoleDef {
-		var roleDefName:String = Type.getClassName(roleDefClass);
+	private function _getRoleDefByClass(roleClass:Class<Role>):Role {
+		var roleName:String = Type.getClassName(roleDefClass);
 		if (_roleDefsByClassName.exists(roleDefName)) {
 			return _roleDefsByClassName[roleDefName];
 		}else {
@@ -171,14 +178,16 @@ class Story
 		
 	}
 	
+	
+	
 	// ---------- vars ----------
 	private var _hasBegan:Bool = false;
 	private var _episodes:Array<Episode> = [];
 	private var _actors:Map<String, Actor> = new Map();
 	private var _actorsToAdd:Array<Actor> = [];
 	//TODO  заменить на ObjectMap
-	private var _huntersByRoleDef:Map<RoleDef, Array<Hunter>> = new Map();
-	private var _roleDefsByClassName:Map<String, RoleDef> = new Map();
+	private var _huntersByRole:Map<Role, Array<Hunter>> = new Map();
+	private var _rolesByClassName:Map<String, Role> = new Map();
 	
 	private var _actorNameCount:Int = 0;
 	

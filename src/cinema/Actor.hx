@@ -20,7 +20,7 @@ class Actor
 	
 	@:allow(cinema.Story)
 	private function _onRemove():Void {
-		for (role in _rolees) {
+		for (role in _roles) {
 			_story._removeRoleFromHunters(role);
 		}
 		_destroy();
@@ -32,7 +32,7 @@ class Actor
 	@:allow(cinema.Story)
 	private function _destroy():Void {
 		_story = null;
-		_rolees = null;
+		_roles = null;
 		_tags = null;
 		_removeAllPropertiesOnDestroy();
 	}
@@ -64,14 +64,14 @@ class Actor
 		return _properties[propertyName] != null;
 	}
 	
-	public function hasProperties(properties:Array<String>):Bool {
-		for (name in properties) {
-			if (!hasProperty(name)) {
-				return false;
-			}
-		}
-		return true;
-	}
+	//public function hasProperties(properties:Array<String>):Bool {
+		//for (name in properties) {
+			//if (!hasProperty(name)) {
+				//return false;
+			//}
+		//}
+		//return true;
+	//}
 	
 	public function removePropertyByName(propertyName:String):Void {
 		if (_properties.exists(propertyName)) {
@@ -80,7 +80,7 @@ class Actor
 		}
 		
 		if (_story != null) {
-			for (role in _rolees) {
+			for (role in _roles) {
 				_story._actorLostProperty(role);
 			}
 		}
@@ -103,7 +103,7 @@ class Actor
 		_tags.push(tag);
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (role in _rolees) {
+			for (role in _roles) {
 				_story._actorTagsModified(role);
 			}
 		}
@@ -127,7 +127,7 @@ class Actor
 		}
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (role in _rolees) {
+			for (role in _roles) {
 				_story._actorTagsModified(role);
 			}
 		}
@@ -135,13 +135,13 @@ class Actor
 	// ---------- Rolees and RoleDefs ----------
 	@:allow(cinema.Story)
 	private function _addRole(role:Role):Void {
-		_rolees.push(role);
+		_roles.push(role);
 	}
 	
 	@:allow(cinema.Story)
-	private function _hasRoleForRoleDef(roleDef:RoleDef):Bool {
-		for (role in _rolees) {
-			if (role.roleDef == roleDef) {
+	private function _hasRole(role:Role):Bool {
+		for (role in _roles) {
+			if (role == role) {
 				return true;
 			}
 		}
@@ -151,7 +151,7 @@ class Actor
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];
-	private var _rolees:Array<Role> = [];
+	private var _roles:Array<Role> = [];
 	
 	private var _story:Story;
 }

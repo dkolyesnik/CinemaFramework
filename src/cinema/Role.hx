@@ -8,22 +8,27 @@ class Role
 {
 	public var actor(default, null):Actor;
 	
-	public var roleDef(get, null):RoleDef;
-	function get_roleDef():RoleDef 
-	{
-		return roleDef;
-	}
-	
 	public function new() 
 	{
 		
 	}
 	
+	public function checkRequirements(actor:Actor):Bool {
+		return true;
+	}
+	
+	public function createRole(actor:Actor):Role {
+		return _roleConstructor()._initialize(actor);
+	}
+	
+	private function _roleConstructor():Role {
+		return new Role();
+	}
+	
 	//TODO either remove either rename
 	@:allow(cinema.RoleDef)
-	private function _initialize(p_actor:Actor, p_roleDef:RoleDef):Role {
+	private function _initialize(p_actor:Actor):Role {
 		actor = p_actor;
-		roleDef = p_roleDef;
 		_readProperties();
 		return this;
 	}
@@ -32,8 +37,6 @@ class Role
 		
 	}
 	
-	private function _initializeSubRoles():Void {
-		
-	}
+	
 	
 }
