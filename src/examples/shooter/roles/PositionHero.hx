@@ -1,13 +1,13 @@
-package examples.shooter.roles;
+package examples.shooter.roleDefs;
 import cinema.Actor;
-import cinema.Hero;
+import cinema.Role;
 import cinema.properties.IntProperty;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class PositionHero extends Hero
+class PositionRole extends Role
 {
 	// -- x property --
 	public var x (get, set):Int;

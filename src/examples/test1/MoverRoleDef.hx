@@ -1,14 +1,14 @@
-package examples.shooter.roles;
+package examples.test1;
 import cinema.Actor;
-import cinema.Hero;
 import cinema.Role;
+import cinema.RoleDef;
 
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class PositionRole extends Role
+class MoverRoleDef extends RoleDef
 {
 
 	public function new() 
@@ -21,9 +21,9 @@ class PositionRole extends Role
 		requirements = ["x", "y"];
 	}
 	
-	override function _heroConstructor():Hero 
+	override function _roleConstructor():Role 
 	{
-		return new PositionRole();
+		return new MoverRole();
 	}
 	
 }

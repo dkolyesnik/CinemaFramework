@@ -1,13 +1,13 @@
 package examples.test1;
 import cinema.Actor;
-import cinema.Hero;
+import cinema.Role;
 import cinema.properties.IntProperty;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class MoverHero extends Hero
+class MoverRole extends Role
 {
 	private var _xProperty:IntProperty;
 	private var _yProperty:IntProperty;

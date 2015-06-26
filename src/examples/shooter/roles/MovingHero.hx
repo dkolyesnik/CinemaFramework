@@ -1,12 +1,12 @@
-package examples.shooter.roles;
+package examples.shooter.roleDefs;
 
-import examples.test1.PositionHero;
+import examples.test1.PositionRole;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class MovingHero extends PositionHero
+class MovingRole extends PositionRole
 {
 	// -- speed property --
 	public var speed (get, set):Int;

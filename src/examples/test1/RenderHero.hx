@@ -1,6 +1,6 @@
 package examples.test1;
 import cinema.Actor;
-import cinema.Hero;
+import cinema.Role;
 import cinema.properties.FloatProperty;
 import cinema.properties.IntProperty;
 
@@ -8,7 +8,7 @@ import cinema.properties.IntProperty;
  * ...
  * @author Kolyesnik D.V.
  */
-class RenderHero extends Hero
+class RenderRole extends Role
 {
 	private var _xProperty:IntProperty;
 	private var _yProperty:IntProperty;
