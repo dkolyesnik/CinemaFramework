@@ -1,6 +1,6 @@
 package examples.test1;
 import cinema.Actor;
-import cinema.RoleObject;
+import cinema.Hero;
 import cinema.Role;
 
 
@@ -21,9 +21,9 @@ class MoverRole extends Role
 		requirements = ["x", "y"];
 	}
 	
-	override function _roleObjectConstructor():RoleObject 
+	override function _heroConstructor():Hero 
 	{
-		return new MoverRO();
+		return new MoverHero();
 	}
 	
 }

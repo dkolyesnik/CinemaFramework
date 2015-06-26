@@ -38,8 +38,8 @@ class Episode
 		
 	}
 	
-	private function _createHunter(roleClass:Class<Role>, roleObjectesArray:Array<Dynamic> = null):Hunter {
-		var hunter = new Hunter(roleClass, roleObjectesArray);
+	private function _createHunter(roleClass:Class<Role>, heroesArray:Array<Dynamic> = null):Hunter {
+		var hunter = new Hunter(roleClass, heroesArray);
 		_hunters.push(hunter);
 		return hunter;
 	}

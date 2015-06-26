@@ -17,11 +17,11 @@ class Role
 		requirements = [];
 	}
 	
-	public function createRoleObject(actor:Actor):RoleObject {
-		return _roleObjectConstructor()._initialize(actor, this);
+	public function createHero(actor:Actor):Hero {
+		return _heroConstructor()._initialize(actor, this);
 	}
 	
-	private function _roleObjectConstructor():RoleObject {
-		return new RoleObject();
+	private function _heroConstructor():Hero {
+		return new Hero();
 	}
 }

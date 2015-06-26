@@ -13,7 +13,7 @@ class DrawEpisode extends Episode
 {
 	public var renderObjectHunter:Hunter;
 	
-	private var _renderObjects:Array<RenderRO> = [];
+	private var _renderObjects:Array<RenderHero> = [];
 	
 	public function new(main:Sprite) 
 	{

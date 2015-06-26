@@ -14,7 +14,7 @@ class Story
 	 * добавить инфу для дебага, количество сущностей, пиковое количество суностей 
 	 * дополнительные проверки, возможно какое-то логирование 
 	 * 
-	 * добавить базовых героев для частых случаем PositionRoleObject , SpatialRoleObject и тд
+	 * добавить базовых героев для частых случаем PositionHero , SpatialHero и тд
 	 * 
 	 * добавить вложенных героев...
 	 */
@@ -65,30 +65,38 @@ class Story
 	}
 	
 	// ---------- Actors ----------
-	public function createActor():Actor {
-		var actor = new Actor();
+	public function createActor(p_name:String = ""):Actor {
+		if (p_name == "") {
+			p_name = _generateName();
+		}
+		var actor = new Actor(p_name);
 		_actorsToAdd.push(actor);
 		return actor;
 	}
 	
 	public function removeActor(actor:Actor):Void {
-		if (_actors.remove(actor)) {
-			actor._destroy();
-		}
+		_actors.remove(actor.name);
+		actor._destroy();
+	}
+	
+	//TODO переделать так, тобы имя генероилось не только из цифр
+	private function _generateName():String {
+		return "@" + Std.string(++_actorNameCount);
 	}
 	
 	private function _addActor(actor:Actor):Void {
 		//TODO = optimize
 		actor._initialize(this);
+		_actors.set(actor.name, actor);
 		var huntersArray:Array<Hunter>;
-		var roleObject:RoleObject;
+		var hero:Hero;
 		for (role in _rolesByClassName) {
 			if (actor.hasProperties(role.requirements)) {
-				roleObject = role.createRoleObject(actor);
-				actor._addRoleObject(roleObject);
+				hero = role.createHero(actor);
+				actor._addHero(hero);
 				huntersArray = _huntersByRole.get(role);
 				for (hunter in huntersArray) {
-					hunter._tryToAddRoleObject(roleObject);
+					hunter._tryToAddHero(hero);
 				}
 			}
 		}
@@ -98,42 +106,42 @@ class Story
 	private function _actorRecievedProperty(actor:Actor):Void {
 		var hunters:Array<Hunter>;
 		var role:Role;
-		var roleObject:RoleObject;
+		var hero:Hero;
 		for (role in _rolesByClassName) {
-			if (actor.hasProperties(role.requirements) && !actor._hasRoleObjectForRole(role)) {
-				roleObject = role.createRoleObject(actor);
-				actor._addRoleObject(roleObject);
+			if (actor.hasProperties(role.requirements) && !actor._hasHeroForRole(role)) {
+				hero = role.createHero(actor);
+				actor._addHero(hero);
 				hunters = _huntersByRole.get(role);
 				for (hunter in hunters) {
-					hunter._tryToAddRoleObject(roleObject);
+					hunter._tryToAddHero(hero);
 				}
 			}
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _actorLostProperty(roleObject:RoleObject):Void {
-		if (!roleObject.actor.hasProperties(roleObject.role.requirements)) {
-			var huntersArray = _huntersByRole.get(roleObject.role);
+	private function _actorLostProperty(hero:Hero):Void {
+		if (!hero.actor.hasProperties(hero.role.requirements)) {
+			var huntersArray = _huntersByRole.get(hero.role);
 			for (hunter in huntersArray) {
-				hunter._removeRoleObject(roleObject);
+				hunter._removeHero(hero);
 			}
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _actorTagsModified(roleObject:RoleObject):Void {
-		var huntersArray = _huntersByRole.get(roleObject.role);
+	private function _actorTagsModified(hero:Hero):Void {
+		var huntersArray = _huntersByRole.get(hero.role);
 		for (hunter in huntersArray) {
-			hunter._checkRoleObjectAfterUpdate(roleObject);
+			hunter._checkHeroAfterUpdate(hero);
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _removeRoleObjectFromHunters(roleObject:RoleObject):Void {
-		var huntersArray = _huntersByRole.get(roleObject.role);
+	private function _removeHeroFromHunters(hero:Hero):Void {
+		var huntersArray = _huntersByRole.get(hero.role);
 		for (hunter in huntersArray) {
-			hunter._removeRoleObject(roleObject);
+			hunter._removeHero(hero);
 		}
 	}
 		
@@ -166,11 +174,13 @@ class Story
 	// ---------- vars ----------
 	private var _hasBegan:Bool = false;
 	private var _episodes:Array<Episode> = [];
-	private var _actors:Array<Actor> = [];
+	private var _actors:Map<String, Actor> = new Map();
 	private var _actorsToAdd:Array<Actor> = [];
 	//TODO  заменить на ObjectMap
 	private var _huntersByRole:Map<Role, Array<Hunter>> = new Map();
 	private var _rolesByClassName:Map<String, Role> = new Map();
+	
+	private var _actorNameCount:Int = 0;
 	
 	//misc
 	static inline function clearArray(array:Array<Actor>) {

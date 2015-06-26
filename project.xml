@@ -14,14 +14,24 @@
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
+	
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
-	
+	<!--
+	<source path="ds-dev/src" />
+	<source path="core-dev/src" />
+	<source path="printf-master/src" />
+	<haxelib name="polygonal-ds" />
+	<haxedef name="alchemy" />
+	-->
+		
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
 	<assets path="assets/img" rename="img" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->
+	
+	<!-- comiler flags -->
 	
 </project>

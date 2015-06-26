@@ -1,6 +1,6 @@
 package examples.shooter.roles;
 import cinema.Actor;
-import cinema.RoleObject;
+import cinema.Hero;
 import cinema.Role;
 
 
@@ -21,7 +21,7 @@ class PositionRole extends Role
 		requirements = ["x", "y"];
 	}
 	
-	override function _roleObjectConstructor():RoleObject 
+	override function _heroConstructor():Hero 
 	{
 		return new PositionRole();
 	}

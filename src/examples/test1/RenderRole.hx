@@ -1,7 +1,7 @@
 package examples.test1;
 
 import cinema.Actor;
-import cinema.RoleObject;
+import cinema.Hero;
 import cinema.Role;
 
 /**
@@ -22,8 +22,8 @@ class RenderRole extends Role
 		requirements = ["x", "y", "radius"];
 	}
 	
-	override function _roleObjectConstructor():RoleObject 
+	override function _heroConstructor():Hero 
 	{
-		return new RenderRO();
+		return new RenderHero();
 	}
 }

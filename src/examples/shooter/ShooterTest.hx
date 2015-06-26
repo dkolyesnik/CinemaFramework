@@ -41,4 +41,6 @@ class ShooterTest extends Test
 		actor.addProperty("y", new IntProperty());
 		actor.addProperty("radius", new IntProperty(11));
 	}
+	
 }
+

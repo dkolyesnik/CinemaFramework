@@ -2,7 +2,7 @@ package examples.test1;
 
 import cinema.Actor;
 import cinema.Hunter;
-import cinema.RoleObject;
+import cinema.Hero;
 import cinema.Episode;
 import cinema.Story;
 
@@ -32,10 +32,10 @@ class RandomActionEpisode extends Episode
 	
 	override public function update(dt:Float):Void 
 	{
-		var array:Array<RoleObject> = hunter.roleObjectes;
-		for (roleObject in array) {
+		var array:Array<Hero> = hunter.heroes;
+		for (hero in array) {
 			if (Math.random() * 100 > _chance) {
-				_foo(roleObject.actor);
+				_foo(hero.actor);
 			}
 		}
 	}
