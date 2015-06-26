@@ -1,6 +1,6 @@
 package examples.test1;
 import cinema.Hunter;
-import cinema.RoleObject;
+import cinema.Role;
 import cinema.Episode;
 import cinema.Story;
 
@@ -12,7 +12,7 @@ class MoveEpisode extends Episode
 {
 	public var moveableHunter:Hunter;
 	
-	private var _movebleObjects:Array<MoverRO> = [];
+	private var _movebleObjects:Array<MoverRole> = [];
 	
 	public function new() 
 	{
@@ -22,7 +22,7 @@ class MoveEpisode extends Episode
 	
 	override function _setupHunters():Void 
 	{
-		moveableHunter = _createHunter(MoverRole, _movebleObjects);
+		moveableHunter = _createHunter(MoverRoleDef, _movebleObjects);
 	}
 	
 	override public function update(dt:Float):Void 

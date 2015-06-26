@@ -7,56 +7,56 @@ import cinema.filters.Filter;
  */
 class Hunter
 {
-	public var roleClass(default, null):Class<Role>;
-	public var roleObjectes(default, null):Array<RoleObject>;
+	public var roleDefClass(default, null):Class<RoleDef>;
+	public var rolees(default, null):Array<Role>;
 	
 	//TODO возможно стоит дать возможность задавать фильр чтобы давать возможность использовать фильтры повторно
-	public function new(p_roleClass:Class<Role> = null, p_roleObjectes:Array<Dynamic> = null) 
+	public function new(p_roleDefClass:Class<RoleDef> = null, p_rolees:Array<Dynamic> = null) 
 	{
-		roleClass = p_roleClass;
-		if (p_roleObjectes == null)
-			roleObjectes = [];
+		roleDefClass = p_roleDefClass;
+		if (p_rolees == null)
+			rolees = [];
 		else
-			roleObjectes = cast p_roleObjectes;
-		if (roleObjectes.length >= 0) {
+			rolees = cast p_rolees;
+		if (rolees.length >= 0) {
 			//TODO error in should be empty
 		}
 		filter = new Filter();
 	}
 	
 	
-	// ---------- RoleObject ----------
+	// ---------- Role ----------
 	@:allow(cinema.Story)
-	private function _tryToAddRoleObject(roleObject:RoleObject):Void {
-		if (filter.check(roleObject.actor)) {
-			roleObjectes.push(roleObject);
+	private function _tryToAddRole(role:Role):Void {
+		if (filter.check(role.actor)) {
+			rolees.push(role);
 		}
 	}
 	
 	@:allow(cinema.Story)
-	private function _checkRoleObjectAfterUpdate(p_roleObject:RoleObject):Void {
-		if (filter.check(p_roleObject.actor)) {
-			if (roleObjectes.indexOf(p_roleObject) == -1) 
-				roleObjectes.push(p_roleObject);
+	private function _checkRoleAfterUpdate(p_role:Role):Void {
+		if (filter.check(p_role.actor)) {
+			if (rolees.indexOf(p_role) == -1) 
+				rolees.push(p_role);
 		}else {
-			_removeRoleObject(p_roleObject);
+			_removeRole(p_role);
 		}
 	}
 	
 	@:allow(cinema.Story)
-	private function _removeRoleObject(p_roleObject:RoleObject):Void {
-		roleObjectes.remove(p_roleObject);
+	private function _removeRole(p_role:Role):Void {
+		rolees.remove(p_role);
 	}
 	
 	// ---------- setup ----------
-	public function setRoleClass(p_roleClass:Class<Role>):Hunter {
-		roleClass = p_roleClass;
+	public function setRoleDefClass(p_roleDefClass:Class<RoleDef>):Hunter {
+		roleDefClass = p_roleDefClass;
 		return this;
 	}
 	
-	public function setRoleObjectsArray(array:Array<Dynamic>):Hunter {
+	public function setRolesArray(array:Array<Dynamic>):Hunter {
 		//TODO либо запрещать менять после иницилазиации , либо как-то обрабатывать ситуацию когда к нему уже было обращение
-		roleObjectes = cast array;
+		rolees = cast array;
 		return this;
 	}
 	

@@ -7,10 +7,10 @@ import cinema.properties.Property;
  */
 class Actor
 {
-
-	public function new() 
+	public var name(default, null):String;
+	public function new(p_name:String) 
 	{
-		
+		p_name = name;
 	} 
 	
 	@:allow(cinema.Story)
@@ -20,8 +20,8 @@ class Actor
 	
 	@:allow(cinema.Story)
 	private function _onRemove():Void {
-		for (roleObject in _roleObjectes) {
-			_story._removeRoleObjectFromHunters(roleObject);
+		for (role in _rolees) {
+			_story._removeRoleFromHunters(role);
 		}
 		_destroy();
 	}
@@ -32,7 +32,7 @@ class Actor
 	@:allow(cinema.Story)
 	private function _destroy():Void {
 		_story = null;
-		_roleObjectes = null;
+		_rolees = null;
 		_tags = null;
 		_removeAllPropertiesOnDestroy();
 	}
@@ -41,7 +41,7 @@ class Actor
 	public function addProperty(propertyName:String, property:Property):Void {
 		if (property == null){
 			//TODO error
-			trace("ERROR1");
+			trace("ERRoleR1");
 		}else if (_properties[propertyName] != null) {
 			if (Type.getClass(property) != Type.getClass(_properties[propertyName])) {
 				//TODO warning
@@ -80,8 +80,8 @@ class Actor
 		}
 		
 		if (_story != null) {
-			for (roleObject in _roleObjectes) {
-				_story._actorLostProperty(roleObject);
+			for (role in _rolees) {
+				_story._actorLostProperty(role);
 			}
 		}
 	}
@@ -103,8 +103,8 @@ class Actor
 		_tags.push(tag);
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (roleObject in _roleObjectes) {
-				_story._actorTagsModified(roleObject);
+			for (role in _rolees) {
+				_story._actorTagsModified(role);
 			}
 		}
 	}
@@ -127,21 +127,21 @@ class Actor
 		}
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (roleObject in _roleObjectes) {
-				_story._actorTagsModified(roleObject);
+			for (role in _rolees) {
+				_story._actorTagsModified(role);
 			}
 		}
 	}
-	// ---------- RoleObjectes and Roles ----------
+	// ---------- Rolees and RoleDefs ----------
 	@:allow(cinema.Story)
-	private function _addRoleObject(roleObject:RoleObject):Void {
-		_roleObjectes.push(roleObject);
+	private function _addRole(role:Role):Void {
+		_rolees.push(role);
 	}
 	
 	@:allow(cinema.Story)
-	private function _hasRoleObjectForRole(role:Role):Bool {
-		for (roleObject in _roleObjectes) {
-			if (roleObject.role == role) {
+	private function _hasRoleForRoleDef(roleDef:RoleDef):Bool {
+		for (role in _rolees) {
+			if (role.roleDef == roleDef) {
 				return true;
 			}
 		}
@@ -151,7 +151,7 @@ class Actor
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];
-	private var _roleObjectes:Array<RoleObject> = [];
+	private var _rolees:Array<Role> = [];
 	
 	private var _story:Story;
 }

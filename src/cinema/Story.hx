@@ -14,7 +14,7 @@ class Story
 	 * добавить инфу для дебага, количество сущностей, пиковое количество суностей 
 	 * дополнительные проверки, возможно какое-то логирование 
 	 * 
-	 * добавить базовых героев для частых случаем PositionRoleObject , SpatialRoleObject и тд
+	 * добавить базовых героев для частых случаем PositionRole , SpatialRole и тд
 	 * 
 	 * добавить вложенных героев...
 	 */
@@ -50,8 +50,8 @@ class Story
 		_episodes = null;
 		_actors = null;
 		_actorsToAdd = null;
-		_huntersByRole = null;
-		_rolesByClassName = null;
+		_huntersByRoleDef = null;
+		_roleDefsByClassName = null;
 		_hasBegan = false;
 	}
 	
@@ -65,30 +65,38 @@ class Story
 	}
 	
 	// ---------- Actors ----------
-	public function createActor():Actor {
-		var actor = new Actor();
+	public function createActor(p_name:String = ""):Actor {
+		if (p_name == "") {
+			p_name = _generateName();
+		}
+		var actor = new Actor(p_name);
 		_actorsToAdd.push(actor);
 		return actor;
 	}
 	
 	public function removeActor(actor:Actor):Void {
-		if (_actors.remove(actor)) {
-			actor._destroy();
-		}
+		_actors.remove(actor.name);
+		actor._destroy();
+	}
+	
+	//TODO переделать так, тобы имя генероилось не только из цифр
+	private function _generateName():String {
+		return "@" + Std.string(++_actorNameCount);
 	}
 	
 	private function _addActor(actor:Actor):Void {
 		//TODO = optimize
 		actor._initialize(this);
+		_actors.set(actor.name, actor);
 		var huntersArray:Array<Hunter>;
-		var roleObject:RoleObject;
-		for (role in _rolesByClassName) {
-			if (actor.hasProperties(role.requirements)) {
-				roleObject = role.createRoleObject(actor);
-				actor._addRoleObject(roleObject);
-				huntersArray = _huntersByRole.get(role);
+		var role:Role;
+		for (roleDef in _roleDefsByClassName) {
+			if (actor.hasProperties(roleDef.requirements)) {
+				role = roleDef.createRole(actor);
+				actor._addRole(role);
+				huntersArray = _huntersByRoleDef.get(roleDef);
 				for (hunter in huntersArray) {
-					hunter._tryToAddRoleObject(roleObject);
+					hunter._tryToAddRole(role);
 				}
 			}
 		}
@@ -97,68 +105,68 @@ class Story
 	@:allow(cinema.Actor)
 	private function _actorRecievedProperty(actor:Actor):Void {
 		var hunters:Array<Hunter>;
+		var roleDef:RoleDef;
 		var role:Role;
-		var roleObject:RoleObject;
-		for (role in _rolesByClassName) {
-			if (actor.hasProperties(role.requirements) && !actor._hasRoleObjectForRole(role)) {
-				roleObject = role.createRoleObject(actor);
-				actor._addRoleObject(roleObject);
-				hunters = _huntersByRole.get(role);
+		for (roleDef in _roleDefsByClassName) {
+			if (actor.hasProperties(roleDef.requirements) && !actor._hasRoleForRoleDef(roleDef)) {
+				role = roleDef.createRole(actor);
+				actor._addRole(role);
+				hunters = _huntersByRoleDef.get(roleDef);
 				for (hunter in hunters) {
-					hunter._tryToAddRoleObject(roleObject);
+					hunter._tryToAddRole(role);
 				}
 			}
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _actorLostProperty(roleObject:RoleObject):Void {
-		if (!roleObject.actor.hasProperties(roleObject.role.requirements)) {
-			var huntersArray = _huntersByRole.get(roleObject.role);
+	private function _actorLostProperty(role:Role):Void {
+		if (!role.actor.hasProperties(role.roleDef.requirements)) {
+			var huntersArray = _huntersByRoleDef.get(role.roleDef);
 			for (hunter in huntersArray) {
-				hunter._removeRoleObject(roleObject);
+				hunter._removeRole(role);
 			}
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _actorTagsModified(roleObject:RoleObject):Void {
-		var huntersArray = _huntersByRole.get(roleObject.role);
+	private function _actorTagsModified(role:Role):Void {
+		var huntersArray = _huntersByRoleDef.get(role.roleDef);
 		for (hunter in huntersArray) {
-			hunter._checkRoleObjectAfterUpdate(roleObject);
+			hunter._checkRoleAfterUpdate(role);
 		}
 	}
 	
 	@:allow(cinema.Actor)
-	private function _removeRoleObjectFromHunters(roleObject:RoleObject):Void {
-		var huntersArray = _huntersByRole.get(roleObject.role);
+	private function _removeRoleFromHunters(role:Role):Void {
+		var huntersArray = _huntersByRoleDef.get(role.roleDef);
 		for (hunter in huntersArray) {
-			hunter._removeRoleObject(roleObject);
+			hunter._removeRole(role);
 		}
 	}
 		
-	// ---------- Hunters & Roles ----------
+	// ---------- Hunters & RoleDefs ----------
 	@:allow(cinema.Episode)
 	private function _addHunter(hunter:Hunter):Void {
-		var role = _getRoleByClass(hunter.roleClass);
-		var array = _huntersByRole.get(role);
+		var roleDef = _getRoleDefByClass(hunter.roleDefClass);
+		var array = _huntersByRoleDef.get(roleDef);
 		if (array == null) {
 			array = [];
-			_huntersByRole.set(role, array);
+			_huntersByRoleDef.set(roleDef, array);
 		}
 		array.push(hunter);
 		
 	}
 	
 	@:allow(cinema.Episode)
-	private function _getRoleByClass(roleClass:Class<Role>):Role {
-		var roleName:String = Type.getClassName(roleClass);
-		if (_rolesByClassName.exists(roleName)) {
-			return _rolesByClassName[roleName];
+	private function _getRoleDefByClass(roleDefClass:Class<RoleDef>):RoleDef {
+		var roleDefName:String = Type.getClassName(roleDefClass);
+		if (_roleDefsByClassName.exists(roleDefName)) {
+			return _roleDefsByClassName[roleDefName];
 		}else {
-			var role = Type.createInstance(roleClass, []);
-			_rolesByClassName.set(roleName, role);
-			return role;
+			var roleDef = Type.createInstance(roleDefClass, []);
+			_roleDefsByClassName.set(roleDefName, roleDef);
+			return roleDef;
 		}
 		
 	}
@@ -166,11 +174,13 @@ class Story
 	// ---------- vars ----------
 	private var _hasBegan:Bool = false;
 	private var _episodes:Array<Episode> = [];
-	private var _actors:Array<Actor> = [];
+	private var _actors:Map<String, Actor> = new Map();
 	private var _actorsToAdd:Array<Actor> = [];
 	//TODO  заменить на ObjectMap
-	private var _huntersByRole:Map<Role, Array<Hunter>> = new Map();
-	private var _rolesByClassName:Map<String, Role> = new Map();
+	private var _huntersByRoleDef:Map<RoleDef, Array<Hunter>> = new Map();
+	private var _roleDefsByClassName:Map<String, RoleDef> = new Map();
+	
+	private var _actorNameCount:Int = 0;
 	
 	//misc
 	static inline function clearArray(array:Array<Actor>) {
