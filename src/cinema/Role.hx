@@ -6,11 +6,12 @@ package cinema;
  */
 class Role
 {
-	public var actor(default, null):Actor;
+	public var actor:Actor;
+	public var name:String;
 	
 	public function new() 
 	{
-		
+		_setName();
 	}
 	
 	public function checkRequirements(actor:Actor):Bool {
@@ -25,8 +26,12 @@ class Role
 		return new Role();
 	}
 	
+	private function _setName():Void {
+		name = "Role";
+	}
+	
 	//TODO either remove either rename
-	@:allow(cinema.RoleDef)
+	//@:allow(cinema.RoleDef)
 	private function _initialize(p_actor:Actor):Role {
 		actor = p_actor;
 		_readProperties();

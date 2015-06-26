@@ -1,6 +1,7 @@
 package;
 
 import cinema.properties.IntProperty;
+import cinema.Story;
 import examples.shooter.ShooterTest;
 import examples.test1.DrawEpisode;
 import examples.test1.MoveEpisode;
@@ -39,7 +40,6 @@ class Main extends Sprite
 		
 		addChild(new FPS(10, 10, 0xFFFF80));
 	}
-	
 	
 	private function createButton(posX:Float, posY:Float, label:String, handler:Dynamic->Void):Sprite {
 		var spr:Sprite = new Sprite();

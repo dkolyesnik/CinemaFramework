@@ -22,7 +22,7 @@ class MoveEpisode extends Episode
 	
 	override function _setupHunters():Void 
 	{
-		moveableHunter = _createHunter(MoverRoleDef, _movebleObjects);
+		moveableHunter = _createHunter(MoverRole, _movebleObjects);
 	}
 	
 	override public function update(dt:Float):Void 

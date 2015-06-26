@@ -53,4 +53,21 @@ class RenderRole extends Role
 		_yProperty = cast actor.getProperty("y");
 		_radiusProperty = cast actor.getProperty("radius");
 	}
+	
+	// ----- Model ------
+	override public function checkRequirements(actor:Actor):Bool 
+	{
+		return actor.hasProperty("x") && actor.hasProperty("y") && actor.hasProperty("radius");
+	}
+	
+	override function _roleConstructor():Role 
+	{
+		return new RenderRole();
+	}
+	
+	override function _setName():Void 
+	{
+		name = "Render";
+	}
+	
 }

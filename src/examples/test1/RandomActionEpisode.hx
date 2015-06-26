@@ -27,12 +27,12 @@ class RandomActionEpisode extends Episode
 	
 	override function _setupHunters():Void 
 	{
-		hunter = _createHunter(RenderRoleDef);
+		hunter = _createHunter(RenderRole);
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		var array:Array<Role> = hunter.rolees;
+		var array:Array<Role> = hunter.roles;
 		for (role in array) {
 			if (Math.random() * 100 > _chance) {
 				_foo(role.actor);

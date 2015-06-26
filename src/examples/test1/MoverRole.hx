@@ -40,4 +40,20 @@ class MoverRole extends Role
 		_xProperty = cast(actor.getProperty("x"));
 		_yProperty = cast actor.getProperty("y");
 	}
+	
+	// ----- Model ------
+	override public function checkRequirements(actor:Actor):Bool 
+	{
+		return actor.hasProperty("x") && actor.hasProperty("y");
+	}
+	
+	override function _roleConstructor():Role 
+	{
+		return new MoverRole();
+	}
+	
+	override function _setName():Void 
+	{
+		name = "Mover";
+	}
 }

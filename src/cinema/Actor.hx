@@ -64,14 +64,14 @@ class Actor
 		return _properties[propertyName] != null;
 	}
 	
-	//public function hasProperties(properties:Array<String>):Bool {
-		//for (name in properties) {
-			//if (!hasProperty(name)) {
-				//return false;
-			//}
-		//}
-		//return true;
-	//}
+	public function hasProperties(properties:Array<String>):Bool {
+		for (name in properties) {
+			if (!hasProperty(name)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	public function removePropertyByName(propertyName:String):Void {
 		if (_properties.exists(propertyName)) {
@@ -139,9 +139,9 @@ class Actor
 	}
 	
 	@:allow(cinema.Story)
-	private function _hasRole(role:Role):Bool {
+	private function _hasRole(roleName:String):Bool {
 		for (role in _roles) {
-			if (role == role) {
+			if (role.name == roleName) {
 				return true;
 			}
 		}

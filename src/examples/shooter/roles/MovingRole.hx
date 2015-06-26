@@ -1,5 +1,6 @@
 package examples.shooter.roleDefs;
 
+import cinema.Actor;
 import examples.test1.PositionRole;
 
 /**
@@ -23,4 +24,19 @@ class MovingRole extends PositionRole
 		
 	}
 	
+	// ----- Model ------
+	override public function checkRequirements(actor:Actor):Bool 
+	{
+		return super.checkRequirements(actor) && actor.hasProperty("speed");
+	}
+	
+	override function _roleConstructor():Role 
+	{
+		return new PositionRole();
+	}
+	
+	override function _setName():Void 
+	{
+		name = "Position";
+	}
 }

@@ -23,7 +23,7 @@ class DrawEpisode extends Episode
 	
 	override function _setupHunters():Void 
 	{
-		renderObjectHunter = _createHunter(RenderRoleDef, _renderObjects);
+		renderObjectHunter = _createHunter(RenderRole, _renderObjects);
 	}
 	
 	override public function update(dt:Float):Void 

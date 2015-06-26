@@ -37,7 +37,7 @@ class Test1 extends Test
 		_story.addEpisode(randomShow);
 		
 		
-		for (i in 0...1000) {
+		for (i in 0...10000) {
 			_hireActor();
 		}
 		_story.begin();

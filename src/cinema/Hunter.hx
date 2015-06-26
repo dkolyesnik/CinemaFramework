@@ -8,7 +8,7 @@ import cinema.filters.Filter;
 class Hunter
 {
 	public var roleClass(default, null):Class<Role>;
-	public var roles(default, null):Array<Role>;
+	public var roles:Array<Role>;
 	
 	//TODO возможно стоит дать возможность задавать фильр чтобы давать возможность использовать фильтры повторно
 	public function new(p_roleClass:Class<Role> = null, p_roles:Array<Dynamic> = null) 
@@ -49,7 +49,7 @@ class Hunter
 	}
 	
 	// ---------- setup ----------
-	public function setRoleDefClass(p_roleClass:Class<Role>):Hunter {
+	public function setRoleClass(p_roleClass:Class<Role>):Hunter {
 		roleClass = p_roleClass;
 		return this;
 	}
