@@ -29,6 +29,13 @@ class Role implements IRoleModel
 	private function _setName():Void {
 		name = "Role";
 	}
+	//TODO как то ограничить вызов для ролей к-е в истории, возможно флагом к-й задаётся в Story
+	public function initialize(p_actor:Actor):Void {
+		if (p_actor != null && checkRequirements(p_actor)) {
+			actor = p_actor;
+			_readProperties();
+		}
+	}
 	
 	//TODO either remove either rename
 	//@:allow(cinema.RoleDef)

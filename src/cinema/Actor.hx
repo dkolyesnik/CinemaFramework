@@ -20,6 +20,9 @@ class Actor
 		_story = story;
 	}
 	
+	/**
+	 * called when removed from story
+	 */
 	@:allow(cinema.Story)
 	private function _onRemove():Void {
 		for (role in _roles) {
@@ -68,12 +71,12 @@ class Actor
 		//}
 	//}
 	
-	public function addProperty(propertyName:String, p_property:AbstractProperty) {
+	public function addProperty(propertyName:String, p_property:AbstractProperty):Property {
 		var property:Property = p_property;
 		if (property == null || propertyName == null) {
 			//TODO error
 			trace( "propery error name="+propertyName);
-			return;
+			return null;
 		}
 		
 		if (_properties[propertyName] != null) {
@@ -81,7 +84,7 @@ class Actor
 			trace("Already added");
 			if (Type.getClass(property) == Type.getClass(_properties[propertyName])) {
 				trace("Property " + propertyName+" already added");
-				return;
+				return null;
 			}else {
 				trace("Try to add property with same name but different type");
 			}
@@ -92,11 +95,21 @@ class Actor
 		if (_story != null) {
 			_story._actorRecievedProperty(this);
 		}
+		return property;
 	}
 	
 	public function getProperty(propertyName:String):Property {
 		return _properties[propertyName];
 	}
+	
+	//public function setPropety(propertyName:String, value:Dynamic, createIfNotFound:Bool = false):Void {
+		//var property:Property;
+		//if (!_properties.exists(propertyName)) {
+			//if (createIfNotFound) {
+				//property = addProperty(propertyName, value)
+			//}
+		//}
+	//}
 
 	public function hasProperty(propertyName:String):Bool {
 		return _properties[propertyName] != null;

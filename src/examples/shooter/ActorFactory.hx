@@ -1,5 +1,6 @@
 package examples.shooter;
 import cinema.Actor;
+import cinema.IActorsFactory;
 import cinema.properties.FloatProperty;
 import cinema.properties.IntProperty;
 import cinema.Story;
@@ -11,31 +12,37 @@ import openfl.display.Sprite;
  * ...
  * @author Kolyesnik D.V.
  */
-class ActorFactory
+class ActorFactory implements IActorsFactory
 {
 	private var _story:Story;
-	public function new(story:Story ) 
+	public function new() 
 	{
+	}
+	
+	public function setStory(story:Story):Void {
 		_story = story;
+	}
+	public function removeStory():Void {
+		_story = null;
 	}
 	
 	public function create(type:String, name:String = ""):Actor {
-		var actor:Actor;
+		var actor:Actor = null;
 		switch (type) 
 		{
 			case "random":
-				return _createActor(name);
+				actor = _createActor(name);
 			case "player":
-				return _createActor(name == ""?"player":name, 0xFF0000, 35, 10, ["follow"]);
+				actor = _createActor(name == ""?"player":name, 0xFF0000, 35, 10, ["follow"]);
+				actor.addProperty("bulletType", "bullet");
 			case "bullet":
 				actor = _createActor(name, 0xFFFF00, 10, 6, ["bullet"]);
-				actor.addProperty("speed", 3);
-				return actor;
+				actor.addProperty("speed", 3.0);
 				
 			default:
 				
 		}
-		return null;
+		return actor;
 	}
 	
 	private function _createActor(name:String = "", color:UInt = 0x004080 , radius:Float = 30, layer:Int = -1, tags:Array<Tag> = null):Actor {

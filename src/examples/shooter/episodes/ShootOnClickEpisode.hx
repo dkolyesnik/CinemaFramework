@@ -1,15 +1,46 @@
 package examples.shooter.episodes;
+import cinema.Actor;
+import cinema.Hunter;
+import examples.shooter.roles.PositionRole;
+import examples.shooter.roles.ShooterRole;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class ShootOnClickEpisode extends MouseClickEpisode
+class ShootOnClickEpisode extends BaseMouseEpisode
 {
-	public function shootersHunter
+	public var shootersHunter:Hunter;
+	
+	private var _shooters:Array<ShooterRole> = [];
+	
+	// не самый оптимизирвоанный вариант, но удобно
+	private var _bulletPosition:PositionRole;
+	
 	public function new() 
 	{
+		super();
+		_bulletPosition = new PositionRole();
+	}
+	
+	override function _setupHunters():Void 
+	{
+		super._setupHunters();
+		shootersHunter = _createHunter(ShooterRole, _shooters);
+	}
+	
+	override public function update(dt:Float):Void 
+	{
 		
+		if (mouse.isClicked()) {
+			for (shooter in _shooters) {
+				_bulletPosition.initialize(_story.createByFactory(shooter.bulletType));
+				if (_bulletPosition != null) {
+					_bulletPosition.x = shooter.x;
+					_bulletPosition.y = shooter.y;
+				}
+			}
+		}
 	}
 	
 }

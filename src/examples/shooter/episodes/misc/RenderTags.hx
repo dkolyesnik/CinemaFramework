@@ -7,8 +7,8 @@ package examples.shooter.episodes.misc;
 class RenderTags
 {
 	
-	public static inline var ON_STAGE:String = "do_onStage";
-	public static inline var UPDATE_PARENT:String = "do_updateParent";
+	public static inline var ON_STAGE:String = "#displayObject_onStage";
+	public static inline var UPDATE_PARENT:String = "#displayObject_updateParent";
 
 	public function new() 
 	{

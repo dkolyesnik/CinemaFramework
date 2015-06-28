@@ -23,6 +23,16 @@ class Story
 	{
 		
 	}
+	
+	public function setFactory(p_factory:IActorsFactory):IActorsFactory {
+		if (_actorsFactory != null) {
+			_actorsFactory.removeStory();
+		}
+		_actorsFactory = p_factory;
+		_actorsFactory.setStory(this);
+		return p_factory;
+	}
+	
 	public function begin():Void {
 		_hasBegan = true;
 	}
@@ -34,7 +44,11 @@ class Story
 		}
 		clearArray(_actorsToAdd);
 		for (episode in _episodes) {
-			episode.update(dt);
+			if (episode.preUpdate()) {
+				episode.update(dt);
+				episode.postUpdate();
+			}
+			removeMarkedActors();
 			modifyMarkedTagActors();
 		}
 	}
@@ -68,6 +82,15 @@ class Story
 	}
 	
 	// ---------- Actors ----------
+	public function createByFactory(type:String, name:String = ""):Actor {
+		if (_actorsFactory == null) {
+			//TODO error
+			trace("factory is not set");
+			return null;
+		}
+		return _actorsFactory.create(type, name);
+	}
+	
 	public function createActor(p_name:String = ""):Actor {
 		if (p_name == "") {
 			p_name = _generateName();
@@ -85,11 +108,8 @@ class Story
 	}
 	
 	public function removeActor(p_actor:Actor):Void {
-		_actors.remove(p_actor.name);
-		_actorsToAdd.remove(p_actor);
-		_actorsToUpdateTags.remove(p_actor);
-		_actorsToUpdateTagsByName.remove(p_actor.name);
-		p_actor._destroy();
+		_actorsToRemove.push(p_actor);
+		
 	}
 	
 	public function markAsTagModified(actor:Actor):Void {
@@ -111,6 +131,20 @@ class Story
 		}
 		clearArray(_actorsToUpdateTags);
 		
+	}
+	
+	/**
+	 *  remove all marked to remove actors
+	 */
+	public function removeMarkedActors():Void {
+		for (actor in _actorsToRemove) {
+			_actors.remove(actor.name);
+			_actorsToAdd.remove(actor);
+			_actorsToUpdateTags.remove(actor);
+			_actorsToUpdateTagsByName.remove(actor.name);
+			actor._onRemove();	
+		}
+		clearArray(_actorsToRemove);
 	}
 	
 	//TODO переделать так, тобы имя генероилось не только из цифр
@@ -213,8 +247,10 @@ class Story
 	private var _hasBegan:Bool = false;
 	private var _episodes:Array<Episode> = [];
 	// actors
+	private var _actorsFactory:IActorsFactory;
 	private var _actors:Map<String, Actor> = new Map();
 	private var _actorsToAdd:Array<Actor> = [];
+	private var _actorsToRemove:Array<Actor> = [];
 	private var _actorsToUpdateTags:Array<Actor> = [];
 	private var _actorsToUpdateTagsByName:Map<String, Actor> = new Map();
 	//

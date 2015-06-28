@@ -42,8 +42,8 @@ class Episode
 	/**
 	 * Called before update
 	 */
-	public function preUpdate():Void {
-		
+	public function preUpdate():Bool {
+		return true;
 	}
 	
 	
