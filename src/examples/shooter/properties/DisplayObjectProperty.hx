@@ -34,6 +34,10 @@ class DisplayObjectProperty extends Property
 	override function _onRemove(actor:Actor):Void 
 	{
 		_actor = null;
+		if (_displayObject.parent != null) {
+			_displayObject.parent.removeChild(_displayObject);
+		}
+		_displayObject = null;
 	}
 	
 	function get_value():DisplayObject 

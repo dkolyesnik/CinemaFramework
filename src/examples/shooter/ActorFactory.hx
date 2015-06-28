@@ -32,12 +32,14 @@ class ActorFactory implements IActorsFactory
 		{
 			case "random":
 				actor = _createActor(name);
+			case "enemy":
+				actor = _createActor(name, 0xFF00FF, 15, 3, ["enemy"]);
 			case "player":
-				actor = _createActor(name == ""?"player":name, 0xFF0000, 35, 10, ["follow"]);
+				actor = _createActor(name == ""?"player":name, 0xFF0000, 18, 10, ["follow"]);
 				actor.addProperty("bulletType", "bullet");
 			case "bullet":
-				actor = _createActor(name, 0xFFFF00, 10, 6, ["bullet"]);
-				actor.addProperty("speed", 3.0);
+				actor = _createActor(name, 0xFFFF00, 5, 6, ["bullet"]);
+				actor.addProperty("speed", 5.0);
 				
 			default:
 				
@@ -45,13 +47,13 @@ class ActorFactory implements IActorsFactory
 		return actor;
 	}
 	
-	private function _createActor(name:String = "", color:UInt = 0x004080 , radius:Float = 30, layer:Int = -1, tags:Array<Tag> = null):Actor {
+	private function _createActor(name:String = "", color:UInt = 0x004080 , radius:Float = 15, layer:Int = -1, tags:Array<Tag> = null):Actor {
 		var actor = _story.createActor(name);
 		actor.addProperty("x", Math.random() * 700 + 50);
 		actor.addProperty("y", Math.random() * 500 + 50);
-		actor.addProperty("width", radius);
-		actor.addProperty("height", radius);
-		actor.addProperty("radius", radius);
+		actor.addProperty("width", radius * 2);
+		actor.addProperty("height", radius * 2);
+		actor.addProperty("radius", radius * 2);
 		if (layer == -1)
 			layer = Std.int(Math.random() * 4);
 		actor.addProperty("layer", layer);
