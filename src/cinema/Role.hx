@@ -4,7 +4,7 @@ package cinema;
  * ...
  * @author Kolyesnik D.V.
  */
-class Role
+class Role implements IRoleModel
 {
 	public var actor:Actor;
 	public var name:String;

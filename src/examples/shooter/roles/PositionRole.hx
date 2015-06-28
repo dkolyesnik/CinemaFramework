@@ -1,7 +1,7 @@
-package examples.shooter.roleDefs;
+package examples.shooter.roles;
 import cinema.Actor;
+import cinema.properties.FloatProperty;
 import cinema.Role;
-import cinema.properties.IntProperty;
 
 /**
  * ...
@@ -10,22 +10,22 @@ import cinema.properties.IntProperty;
 class PositionRole extends Role
 {
 	// -- x property --
-	public var x (get, set):Int;
-	private var _xProperty:IntProperty;
-	function get_x():Int { 
+	public var x (get, set):Float;
+	private var _xProperty:FloatProperty;
+	function get_x():Float { 
 		return _xProperty.value;	
 	}
-	function set_x(value:Int):Int { 
+	function set_x(value:Float):Float { 
 	   return _xProperty.value = value;
 	}
 	
 	// -- y property --
-	public var y (get, set):Int;
-	private var _yProperty:IntProperty;
-	function get_y():Int {
+	public var y (get, set):Float;
+	private var _yProperty:FloatProperty;
+	function get_y():Float {
 	   return _yProperty.value;
 	}
-	function set_y(value:Int):Int {
+	function set_y(value:Float):Float {
 	   return _yProperty.value = value;
 	}
 		

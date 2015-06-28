@@ -103,9 +103,7 @@ class Actor
 		_tags.push(tag);
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (role in _roles) {
-				_story._actorTagsModified(role);
-			}
+			_story.markAsTagModified(this);
 		}
 	}
 	
@@ -117,18 +115,15 @@ class Actor
 		}
 		return false;
 	}
-	
+	//TODO оптимизировать чтобы после нескольких добавлений/удалений один раз проверялось
 	public function removeTag(tag:Tag):Void {
 		for (i in 0..._tags.length) {
 			if (_tags[i] == tag) {
 				_tags.splice(i, 1);
+				if (_story != null) {
+					_story.markAsTagModified(this);
+				}
 				return;
-			}
-		}
-		//TODO предупредить всех об измеениях
-		if (_story != null) {
-			for (role in _roles) {
-				_story._actorTagsModified(role);
 			}
 		}
 	}
@@ -148,6 +143,10 @@ class Actor
 		return false;
 	}
 	
+	@:allow(cinema.Story)
+	private function _getRoles():Array<Role> {
+		return _roles;
+	}
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];

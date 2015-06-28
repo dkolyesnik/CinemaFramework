@@ -50,6 +50,8 @@ class Story
 		_episodes = null;
 		_actors = null;
 		_actorsToAdd = null;
+		_actorsToUpdateTagsByName = null;
+		_actorsToUpdateTags = null;
 		_huntersByRoleName = null;
 		_roleModelsByName = null;
 		_hasBegan = false;
@@ -74,9 +76,30 @@ class Story
 		return actor;
 	}
 	
-	public function removeActor(actor:Actor):Void {
-		_actors.remove(actor.name);
-		actor._destroy();
+	public function removeActor(p_actor:Actor):Void {
+		_actors.remove(p_actor.name);
+		_actorsToAdd.remove(p_actor);
+		_actorsToUpdateTags.remove(p_actor);
+		_actorsToUpdateTagsByName.remove(p_actor.name);
+		p_actor._destroy();
+	}
+	
+	public function markAsTagModified(actor:Actor):Void {
+		if (_actorsToUpdateTagsByName.exists(actor.name)) {
+			return;
+		}
+		_actorsToUpdateTagsByName[actor.name] = actor;
+		_actorsToUpdateTags.push(actor);
+	}
+	
+	/**
+	 * Call _actorTagsModified for every marked actor
+	 * updates the hunters
+	 */
+	public function modifyMarkedTagActors():Void {
+		for (actor in _actorsToUpdateTags) {
+			_actorTagsModified(
+		}
 	}
 	
 	//TODO переделать так, тобы имя генероилось не только из цифр
@@ -130,10 +153,12 @@ class Story
 	}
 	
 	@:allow(cinema.Actor)
-	private function _actorTagsModified(role:Role):Void {
-		var huntersArray = _huntersByRoleName.get(role.name);
-		for (hunter in huntersArray) {
-			hunter._checkRoleAfterUpdate(role);
+	private function _actorTagsModified(actor:Actor):Void {
+		for (role in actor._getRoles()) {
+			var huntersArray = _huntersByRoleName.get(role.name);
+			for (hunter in huntersArray) {
+				hunter._checkRoleAfterUpdate(role);
+			}
 		}
 	}
 	
@@ -148,7 +173,7 @@ class Story
 	// ---------- Hunters & RoleDefs ----------
 	@:allow(cinema.Episode)
 	private function _addHunter(hunter:Hunter):Void {
-		var roleModel = _getRoleByClass(hunter.roleClass);
+		var roleModel = _getRoleModelByClass(hunter.roleClass);
 		var array = _huntersByRoleName.get(roleModel.name);
 		if (array == null) {
 			array = [];
@@ -159,7 +184,7 @@ class Story
 	}
 	
 	@:allow(cinema.Episode)
-	private function _getRoleByClass(roleClass:Class<Role>):Role {
+	private function _getRoleModelByClass(roleClass:Class<Role>):IRoleModel {
 		var tempRole:Role = Type.createInstance(roleClass, []);
 		var roleName:String = tempRole.name;
 		if (_roleModelsByName.exists(roleName)) {
@@ -176,11 +201,15 @@ class Story
 	// ---------- vars ----------
 	private var _hasBegan:Bool = false;
 	private var _episodes:Array<Episode> = [];
+	// actors
 	private var _actors:Map<String, Actor> = new Map();
 	private var _actorsToAdd:Array<Actor> = [];
+	private var _actorsToUpdateTags:Array<Actor> = [];
+	private var _actorsToUpdateTagsByName:Map<String, Actor> = new Map();
+	//
 	//TODO  заменить на ObjectMap
 	private var _huntersByRoleName:Map<String, Array<Hunter>> = new Map();
-	private var _roleModelsByName:Map<String, Role> = new Map();
+	private var _roleModelsByName:Map<String, IRoleModel> = new Map();
 	
 	private var _actorNameCount:Int = 0;
 	

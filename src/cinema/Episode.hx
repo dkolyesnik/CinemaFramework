@@ -11,12 +11,18 @@ class Episode
 	{
 		_setupHunters();
 	}
-	
+	/**
+	 *  Override to setup Hunters
+	 */
 	private function _setupHunters():Void {
 		
 	}
 	
 	@:allow(cinema.Story)
+	/**
+	 * Called when added to Story
+	 * @param	story
+	 */
 	private function _initialize(story:Story):Void {
 		_story = story;
 		for (hunter in _hunters) {
@@ -33,12 +39,15 @@ class Episode
 		_story = null;
 	}
 	
-	//RENAME
+	/**
+	 * Override 
+	 * @param	dt - delta time
+	 */
 	public function update(dt:Float):Void {
 		
 	}
 	
-	private function _createHunter(roleClass:Class<Role>, rolesArray:Array<Dynamic> = null):Hunter {
+	private  function _createHunter(roleClass:Class<Role>, rolesArray:Array<Dynamic> = null):Hunter {
 		var hunter = new Hunter(roleClass, rolesArray);
 		_hunters.push(hunter);
 		return hunter;
