@@ -17,20 +17,20 @@ class ImageRole extends Role
 	// -- layer property --
 	public var layer (get, set):Int;
 	private var _layerProperty:IntProperty;
-	function get_layer():Int { 
+	private inline function get_layer():Int { 
 		return _layerProperty.value;	
 	}
-	function set_layer(value:Int):Int { 
+	private inline function set_layer(value:Int):Int { 
 		return _layerProperty.value = value;
 	}
 	
 	// -- imageName property --
 	public var imageName (get, set):String;
 	private var _imageNameProperty:StringProperty;
-	function get_imageName():String { 
+	private inline function get_imageName():String { 
 		return _imageNameProperty.value;	
 	}
-	function set_imageName(value:String):String { 
+	private inline function set_imageName(value:String):String { 
 		return _imageNameProperty.value = value;
 	}
 	
