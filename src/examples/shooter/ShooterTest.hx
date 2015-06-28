@@ -42,7 +42,7 @@ class ShooterTest extends Test
 		_story = new Story();
 		_factory = _story.setFactory(new ActorFactory());
 		
-		
+		// mouse input
 		_story.addEpisode(new MouseCursorEpisode(_bg));
 		
 		// follow mouse

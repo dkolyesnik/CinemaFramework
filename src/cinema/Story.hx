@@ -67,6 +67,8 @@ class Story
 		_actorsToAdd = null;
 		_actorsToUpdateTagsByName = null;
 		_actorsToUpdateTags = null;
+		_actorsToRemoveByName = null;
+		_actorsToRemove = null;
 		_huntersByRoleName = null;
 		_roleModelsByName = null;
 		_hasBegan = false;
@@ -108,8 +110,10 @@ class Story
 	}
 	
 	public function removeActor(p_actor:Actor):Void {
-		_actorsToRemove.push(p_actor);
-		
+		if (!_actorsToRemoveByName.exists(p_actor.name)) {
+			_actorsToRemoveByName[p_actor.name] = p_actor;
+			_actorsToRemove.push(p_actor);
+		}
 	}
 	
 	public function markAsTagModified(actor:Actor):Void {
@@ -142,8 +146,10 @@ class Story
 			_actorsToAdd.remove(actor);
 			_actorsToUpdateTags.remove(actor);
 			_actorsToUpdateTagsByName.remove(actor.name);
+			_actorsToRemoveByName.remove(actor.name);
 			actor._onRemove();	
 		}
+		
 		clearArray(_actorsToRemove);
 	}
 	
@@ -251,6 +257,7 @@ class Story
 	private var _actors:Map<String, Actor> = new Map();
 	private var _actorsToAdd:Array<Actor> = [];
 	private var _actorsToRemove:Array<Actor> = [];
+	private var _actorsToRemoveByName:Map<String, Actor> = new Map();
 	private var _actorsToUpdateTags:Array<Actor> = [];
 	private var _actorsToUpdateTagsByName:Map<String, Actor> = new Map();
 	//
