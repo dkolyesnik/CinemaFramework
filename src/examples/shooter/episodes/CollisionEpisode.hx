@@ -58,10 +58,10 @@ class CollisionEpisode extends Episode
 	}
 	
 	
-	public static function calcDistance(x:Float, y:Float, x1:Float, y1:Float):Float {
-		return (x - x1) * (x - x1) + (y - y1) * (y - y1);
+	public static inline function calcDistance(x:Float, y:Float, x1:Float, y1:Float):Float {
+		return pow(x - x1) + pow(y - y1);
 	}
-	public static function pow(x:Float):Float {
+	public static inline function pow(x:Float):Float {
 		return x * x;
 	}
 }
