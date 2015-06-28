@@ -46,9 +46,12 @@ class DisplayObjectRenderEpisode extends Episode
 		for (displayObject in _displayObjectsoUpdateParent) {
 			getLayer(displayObject.layer).addChild(displayObject.displayObject);
 			displayObject.actor.removeTag(RenderTags.UPDATE_PARENT);
+			displayObject.actor.addTag(RenderTags.ON_STAGE);
 		}
 		
-		for (displayObject in _displayObjects) {
+		_story.modifyMarkedTagActors();
+		
+		for (displayObject in _displayObjectsOnStage) {
 			displayObject.update(dt);
 		}
 	}
@@ -62,7 +65,7 @@ class DisplayObjectRenderEpisode extends Episode
 		_layerByPriority[priority] = layer;
 		//TODO oprimize
 		for (i in 0..._layers.length) {
-			if (_layers[i].priority < priority) {
+			if (priority < _layers[i].priority) {
 				_layers.insert(i, layer);
 				_mainLayer.addChildAt(layer, i);
 				return layer;

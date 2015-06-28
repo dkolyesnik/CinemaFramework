@@ -35,6 +35,7 @@ class Story
 		clearArray(_actorsToAdd);
 		for (episode in _episodes) {
 			episode.update(dt);
+			modifyMarkedTagActors();
 		}
 	}
 	
@@ -76,6 +77,13 @@ class Story
 		return actor;
 	}
 	
+	public function findActor(p_name:String):Actor {
+		if (_actors.exists(p_name)) {
+			return _actors[p_name];
+		}
+		return null;
+	}
+	
 	public function removeActor(p_actor:Actor):Void {
 		_actors.remove(p_actor.name);
 		_actorsToAdd.remove(p_actor);
@@ -98,8 +106,11 @@ class Story
 	 */
 	public function modifyMarkedTagActors():Void {
 		for (actor in _actorsToUpdateTags) {
-			_actorTagsModified(
+			_actorTagsModified(actor);
+			_actorsToUpdateTagsByName.remove(actor.name);
 		}
+		clearArray(_actorsToUpdateTags);
+		
 	}
 	
 	//TODO переделать так, тобы имя генероилось не только из цифр

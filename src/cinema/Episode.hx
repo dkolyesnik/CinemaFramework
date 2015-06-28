@@ -40,10 +40,25 @@ class Episode
 	}
 	
 	/**
+	 * Called before update
+	 */
+	public function preUpdate():Void {
+		
+	}
+	
+	
+	/**
 	 * Override 
 	 * @param	dt - delta time
 	 */
 	public function update(dt:Float):Void {
+		
+	}
+	
+	/**
+	 * Called after update
+	 */
+	public function postUpdate():Void {
 		
 	}
 	

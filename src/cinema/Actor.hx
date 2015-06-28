@@ -1,4 +1,6 @@
 package cinema;
+import cinema.properties.AbstractProperty;
+import cinema.properties.IntProperty;
 import cinema.properties.Property;
 
 /**
@@ -10,7 +12,7 @@ class Actor
 	public var name(default, null):String;
 	public function new(p_name:String) 
 	{
-		p_name = name;
+		name = p_name;
 	} 
 	
 	@:allow(cinema.Story)
@@ -38,19 +40,55 @@ class Actor
 	}
 	
 	// ---------- Properties ----------
-	public function addProperty(propertyName:String, property:Property):Void {
-		if (property == null){
+	//public function addProperty(propertyName:String, ?property:Property , ?intValue:Int, ?floatValue:Float, ?stringValue:String):Void {
+		//if (property == null && intValue == null && floatValue == null && stringValue == null){
+			////TODO error
+			//trace("ERRoleR1");
+			//return;
+		//}
+		//if (property == null) {
+			//if (intValue != null)
+				//property = new IntProperty(intValue);
+		//}	
+		//
+		//else if (property != null) {
+			//if(_properties[propertyName] != null) {
+				//if (Type.getClass(property) != Type.getClass(_properties[propertyName])) {
+					////TODO warning
+					//trace("WARNING");
+				//}
+			//}
+		//}
+		//}else{
+			//_properties[propertyName] = property;
+			//property._onAdd(this);
+		//}
+		//if (_story != null) {
+			//_story._actorRecievedProperty(this);
+		//}
+	//}
+	
+	public function addProperty(propertyName:String, p_property:AbstractProperty) {
+		var property:Property = p_property;
+		if (property == null || propertyName == null) {
 			//TODO error
-			trace("ERRoleR1");
-		}else if (_properties[propertyName] != null) {
-			if (Type.getClass(property) != Type.getClass(_properties[propertyName])) {
-				//TODO warning
-				trace("WARNING");
-			}
-		}else{
-			_properties[propertyName] = property;
-			property._onAdd(this);
+			trace( "propery error name="+propertyName);
+			return;
 		}
+		
+		if (_properties[propertyName] != null) {
+			//TODO error
+			trace("Already added");
+			if (Type.getClass(property) == Type.getClass(_properties[propertyName])) {
+				trace("Property " + propertyName+" already added");
+				return;
+			}else {
+				trace("Try to add property with same name but different type");
+			}
+		}
+		_properties[propertyName] = property;
+		property._onAdd(this);
+
 		if (_story != null) {
 			_story._actorRecievedProperty(this);
 		}
