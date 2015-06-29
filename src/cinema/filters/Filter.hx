@@ -25,6 +25,16 @@ class Filter implements IFilterSetup
 		return this;
 	}
 	
+	public function actorName(name:String):IFilterSetup {
+		_addCondition(new ActorNameFilterCondition(name));
+		return this;
+	}
+	
+	public function customCondition(condition:FilterCondition):IFilterSetup {
+		_addCondition(condition);
+		return this;
+	}
+	
 	public function check(actor:Actor):Bool {
 		for (condition in _conditions) {
 			if (!condition.check(actor)) {

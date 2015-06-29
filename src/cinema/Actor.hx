@@ -1,4 +1,6 @@
 package cinema;
+import cinema.properties.AbstractProperty;
+import cinema.properties.IntProperty;
 import cinema.properties.Property;
 
 /**
@@ -7,10 +9,10 @@ import cinema.properties.Property;
  */
 class Actor
 {
-
-	public function new() 
+	public var name(default, null):String;
+	public function new(p_name:String) 
 	{
-		
+		name = p_name;
 	} 
 	
 	@:allow(cinema.Story)
@@ -18,10 +20,13 @@ class Actor
 		_story = story;
 	}
 	
+	/**
+	 * called when removed from story
+	 */
 	@:allow(cinema.Story)
 	private function _onRemove():Void {
-		for (hero in _heroes) {
-			_story._removeHeroFromHunters(hero);
+		for (role in _roles) {
+			_story._removeRoleFromHunters(role);
 		}
 		_destroy();
 	}
@@ -32,33 +37,79 @@ class Actor
 	@:allow(cinema.Story)
 	private function _destroy():Void {
 		_story = null;
-		_heroes = null;
+		_roles = null;
 		_tags = null;
 		_removeAllPropertiesOnDestroy();
 	}
 	
 	// ---------- Properties ----------
-	public function addProperty(propertyName:String, property:Property):Void {
-		if (property == null){
+	//public function addProperty(propertyName:String, ?property:Property , ?intValue:Int, ?floatValue:Float, ?stringValue:String):Void {
+		//if (property == null && intValue == null && floatValue == null && stringValue == null){
+			////TODO error
+			//trace("ERRoleR1");
+			//return;
+		//}
+		//if (property == null) {
+			//if (intValue != null)
+				//property = new IntProperty(intValue);
+		//}	
+		//
+		//else if (property != null) {
+			//if(_properties[propertyName] != null) {
+				//if (Type.getClass(property) != Type.getClass(_properties[propertyName])) {
+					////TODO warning
+					//trace("WARNING");
+				//}
+			//}
+		//}
+		//}else{
+			//_properties[propertyName] = property;
+			//property._onAdd(this);
+		//}
+		//if (_story != null) {
+			//_story._actorRecievedProperty(this);
+		//}
+	//}
+	
+	public function addProperty(propertyName:String, p_property:AbstractProperty):Property {
+		var property:Property = p_property;
+		if (property == null || propertyName == null) {
 			//TODO error
-			trace("ERROR1");
-		}else if (_properties[propertyName] != null) {
-			if (Type.getClass(property) != Type.getClass(_properties[propertyName])) {
-				//TODO warning
-				trace("WARNING");
-			}
-		}else{
-			_properties[propertyName] = property;
-			property._onAdd(this);
+			trace( "propery error name="+propertyName);
+			return null;
 		}
+		
+		if (_properties[propertyName] != null) {
+			//TODO error
+			trace("Already added");
+			if (Type.getClass(property) == Type.getClass(_properties[propertyName])) {
+				trace("Property " + propertyName+" already added");
+				return null;
+			}else {
+				trace("Try to add property with same name but different type");
+			}
+		}
+		_properties[propertyName] = property;
+		property._onAdd(this);
+
 		if (_story != null) {
 			_story._actorRecievedProperty(this);
 		}
+		return property;
 	}
 	
 	public function getProperty(propertyName:String):Property {
 		return _properties[propertyName];
 	}
+	
+	//public function setPropety(propertyName:String, value:Dynamic, createIfNotFound:Bool = false):Void {
+		//var property:Property;
+		//if (!_properties.exists(propertyName)) {
+			//if (createIfNotFound) {
+				//property = addProperty(propertyName, value)
+			//}
+		//}
+	//}
 
 	public function hasProperty(propertyName:String):Bool {
 		return _properties[propertyName] != null;
@@ -80,8 +131,8 @@ class Actor
 		}
 		
 		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorLostProperty(hero);
+			for (role in _roles) {
+				_story._actorLostProperty(role);
 			}
 		}
 	}
@@ -103,9 +154,7 @@ class Actor
 		_tags.push(tag);
 		//TODO предупредить всех об измеениях
 		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorTagsModified(hero);
-			}
+			_story.markAsTagModified(this);
 		}
 	}
 	
@@ -117,41 +166,42 @@ class Actor
 		}
 		return false;
 	}
-	
+	//TODO оптимизировать чтобы после нескольких добавлений/удалений один раз проверялось
 	public function removeTag(tag:Tag):Void {
 		for (i in 0..._tags.length) {
 			if (_tags[i] == tag) {
 				_tags.splice(i, 1);
+				if (_story != null) {
+					_story.markAsTagModified(this);
+				}
 				return;
 			}
 		}
-		//TODO предупредить всех об измеениях
-		if (_story != null) {
-			for (hero in _heroes) {
-				_story._actorTagsModified(hero);
-			}
-		}
 	}
-	// ---------- Heroes and Roles ----------
+	// ---------- Rolees and RoleDefs ----------
 	@:allow(cinema.Story)
-	private function _addHero(hero:Hero):Void {
-		_heroes.push(hero);
+	private function _addRole(role:Role):Void {
+		_roles.push(role);
 	}
 	
 	@:allow(cinema.Story)
-	private function _hasHeroForRole(role:Role):Bool {
-		for (hero in _heroes) {
-			if (hero.role == role) {
+	private function _hasRole(roleName:String):Bool {
+		for (role in _roles) {
+			if (role.name == roleName) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	@:allow(cinema.Story)
+	private function _getRoles():Array<Role> {
+		return _roles;
+	}
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];
-	private var _heroes:Array<Hero> = [];
+	private var _roles:Array<Role> = [];
 	
 	private var _story:Story;
 }

@@ -20,23 +20,24 @@ class Test1 extends Test
 	override public function start(params:Dynamic):Void {
 		super.start(params);
 		
+		_story = new Story();
 		
-		var drawEpisode:DrawEpisode = new DrawEpisode(_layer);
-		drawEpisode.renderObjectCharacter.selectActors.noTags(["invisible"]);
+		var drawEpisode:DrawEpisode = new DrawEpisode(_storyLayer);
+		drawEpisode.renderObjectHunter.filter.noTags(["invisible"]);
 		_story.addEpisode(drawEpisode);
 		
 		_story.addEpisode(new MoveEpisode());
 		
 		var randomHide:RandomActionEpisode = new RandomActionEpisode(90, hideActor);
-		randomHide.character.selectActors.noTags(["invisible"]);
+		randomHide.hunter.filter.noTags(["invisible"]);
 		_story.addEpisode(randomHide);
 		
 		var randomShow:RandomActionEpisode = new RandomActionEpisode(90, showActor);
-		randomShow.character.selectActors.withTags(["invisible"]);
+		randomShow.hunter.filter.withTags(["invisible"]);
 		_story.addEpisode(randomShow);
 		
 		
-		for (i in 0...1000) {
+		for (i in 0...100) {
 			_hireActor();
 		}
 		_story.begin();
@@ -52,7 +53,7 @@ class Test1 extends Test
 	
 	//misc
 	private function _hireActor():Void {
-		var actor:Actor = _story.hireActor();
+		var actor:Actor = _story.createActor();
 		actor.addProperty("x", new IntProperty(Std.int(Math.random() * 700 + 50)));
 		actor.addProperty("y", new IntProperty(Std.int(Math.random() * 500 + 50)));
 		actor.addProperty("radius", new IntProperty(10));

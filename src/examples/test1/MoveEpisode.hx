@@ -1,7 +1,8 @@
 package examples.test1;
 import cinema.Hunter;
-import cinema.Hero;
+import cinema.Role;
 import cinema.Episode;
+import cinema.Story;
 
 /**
  * ...
@@ -11,12 +12,11 @@ class MoveEpisode extends Episode
 {
 	public var moveableHunter:Hunter;
 	
-	private var _movebleObjects:Array<MoverHero> = [];
+	private var _movebleObjects:Array<MoverRole> = [];
 	
 	public function new() 
 	{
 		super();
-		
 		
 	}
 	

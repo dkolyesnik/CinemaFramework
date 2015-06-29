@@ -7,16 +7,22 @@ package cinema;
 class Episode
 {
 
-	public function new() 
+	public function new()
 	{
 		_setupHunters();
 	}
-	
+	/**
+	 *  Override to setup Hunters
+	 */
 	private function _setupHunters():Void {
 		
 	}
 	
 	@:allow(cinema.Story)
+	/**
+	 * Called when added to Story
+	 * @param	story
+	 */
 	private function _initialize(story:Story):Void {
 		_story = story;
 		for (hunter in _hunters) {
@@ -29,16 +35,35 @@ class Episode
 	 */
 	@:allow(cinema.Story)
 	private function _destroy():Void {
-		
+		_hunters = null;
+		_story = null;
 	}
 	
-	//RENAME
+	/**
+	 * Called before update
+	 */
+	public function preUpdate():Bool {
+		return true;
+	}
+	
+	
+	/**
+	 * Override 
+	 * @param	dt - delta time
+	 */
 	public function update(dt:Float):Void {
 		
 	}
 	
-	private function _createHunter(roleClass:Class<Role>, heroesArray:Array<Dynamic> = null):Hunter {
-		var hunter = new Hunter(roleClass, heroesArray);
+	/**
+	 * Called after update
+	 */
+	public function postUpdate():Void {
+		
+	}
+	
+	private  function _createHunter(roleClass:Class<Role>, rolesArray:Array<Dynamic> = null):Hunter {
+		var hunter = new Hunter(roleClass, rolesArray);
 		_hunters.push(hunter);
 		return hunter;
 	}

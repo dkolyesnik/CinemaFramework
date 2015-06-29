@@ -1,34 +1,35 @@
-package examples.test1;
+package examples.shooter.roles;
 import cinema.Actor;
+import cinema.properties.FloatProperty;
 import cinema.Role;
-import cinema.properties.IntProperty;
 
 /**
  * ...
  * @author Kolyesnik D.V.
  */
-class MoverRole extends Role
+class PositionRole extends Role
 {
-	private var _xProperty:IntProperty;
-	private var _yProperty:IntProperty;
-	
-	public var y (get, set):Int;
-	public var x (get, set):Int;
-	
-	
-	function get_x():Int { 
+	// -- x property --
+	public var x (get, set):Float;
+	private var _xProperty:FloatProperty;
+	private inline function get_x():Float { 
 		return _xProperty.value;	
 	}
-	function set_x(value:Int):Int { 
+	private inline function set_x(value:Float):Float { 
 	   return _xProperty.value = value;
 	}
 	
-	function get_y():Int {
+	// -- y property --
+	public var y (get, set):Float;
+	private var _yProperty:FloatProperty;
+	private inline function get_y():Float {
 	   return _yProperty.value;
 	}
-	function set_y(value:Int):Int {
+	private inline function set_y(value:Float):Float {
 	   return _yProperty.value = value;
 	}
+		
+	
 	
 	public function new() 
 	{
@@ -49,11 +50,11 @@ class MoverRole extends Role
 	
 	override function _roleConstructor():Role 
 	{
-		return new MoverRole();
+		return new PositionRole();
 	}
 	
 	override function _setName():Void 
 	{
-		name = "Mover";
+		name = "Position";
 	}
 }

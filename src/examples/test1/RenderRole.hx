@@ -1,6 +1,6 @@
 package examples.test1;
 import cinema.Actor;
-import cinema.Hero;
+import cinema.Role;
 import cinema.properties.FloatProperty;
 import cinema.properties.IntProperty;
 
@@ -8,7 +8,7 @@ import cinema.properties.IntProperty;
  * ...
  * @author Kolyesnik D.V.
  */
-class RenderObjectHero extends Hero
+class RenderRole extends Role
 {
 	private var _xProperty:IntProperty;
 	private var _yProperty:IntProperty;
@@ -53,4 +53,21 @@ class RenderObjectHero extends Hero
 		_yProperty = cast actor.getProperty("y");
 		_radiusProperty = cast actor.getProperty("radius");
 	}
+	
+	// ----- Model ------
+	override public function checkRequirements(actor:Actor):Bool 
+	{
+		return actor.hasProperty("x") && actor.hasProperty("y") && actor.hasProperty("radius");
+	}
+	
+	override function _roleConstructor():Role 
+	{
+		return new RenderRole();
+	}
+	
+	override function _setName():Void 
+	{
+		name = "Render";
+	}
+	
 }
