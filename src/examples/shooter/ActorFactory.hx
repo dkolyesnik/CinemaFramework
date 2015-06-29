@@ -35,7 +35,7 @@ class ActorFactory implements IActorsFactory
 			case "enemy":
 				actor = _createActor(name, 0xFF00FF, 15, 3, ["enemy"]);
 			case "player":
-				actor = _createActor(name == ""?"player":name, 0xFF0000, 18, 10, ["follow"]);
+				actor = _createActor(name == ""?"player":name, 0xFF0000, 18, 10, ["follow", "player"]);
 				actor.addProperty("bulletType", "bullet");
 			case "bullet":
 				actor = _createActor(name, 0xFFFF00, 5, 6, ["bullet"]);
@@ -50,7 +50,7 @@ class ActorFactory implements IActorsFactory
 	private function _createActor(name:String = "", color:UInt = 0x004080 , radius:Float = 15, layer:Int = -1, tags:Array<Tag> = null):Actor {
 		var actor = _story.createActor(name);
 		actor.addProperty("x", Math.random() * 700 + 50);
-		actor.addProperty("y", Math.random() * 500 + 50);
+		actor.addProperty("y", Math.random() * 400 + 50);
 		actor.addProperty("width", radius * 2);
 		actor.addProperty("height", radius * 2);
 		actor.addProperty("radius", radius * 2);

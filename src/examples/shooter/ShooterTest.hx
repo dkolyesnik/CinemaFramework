@@ -8,7 +8,10 @@ import cinema.Story;
 import cinema.Tag;
 import examples.shooter.episodes.CollisionEpisode;
 import examples.shooter.episodes.DisplayObjectRenderEpisode;
+import examples.shooter.episodes.DoActionsEpisode;
+import examples.shooter.episodes.DoOnTimerEpisode;
 import examples.shooter.episodes.FollowMouseEpisode;
+import examples.shooter.episodes.misc.DelayEpisodeTimer;
 import examples.shooter.episodes.MouseCursorEpisode;
 import examples.shooter.episodes.RemoveOnLeaveBorderEpisode;
 import examples.shooter.episodes.ShootOnClickEpisode;
@@ -16,6 +19,7 @@ import examples.shooter.episodes.UpdateRoleEpisode;
 import examples.shooter.properties.DisplayObjectProperty;
 import examples.shooter.roles.ColliderRole;
 import examples.shooter.roles.MovingRole;
+import examples.shooter.roles.PositionRole;
 import examples.Test;
 import examples.test1.DrawEpisode;
 import openfl.display.Sprite;
@@ -45,10 +49,19 @@ class ShooterTest extends Test
 		// mouse input
 		_story.addEpisode(new MouseCursorEpisode(_bg));
 		
+		// spawnEnemies
+		_story.addEpisode(new DoOnTimerEpisode().setTimer(new DelayEpisodeTimer(120)).setHandler(spawnEnemies));
+		
+		
 		// follow mouse
 		var followMouseEpisode:FollowMouseEpisode = new FollowMouseEpisode();
 		followMouseEpisode.hunter.filter.withTags(["follow"]);
 		_story.addEpisode(followMouseEpisode);
+		
+		// player mods
+		var actionsEpisode:DoActionsEpisode = new DoActionsEpisode().addAction(checkHeight);
+		actionsEpisode.hunter.setRoleClass(PositionRole).filter.withTags(["player"]);
+		_story.addEpisode(actionsEpisode);
 		
 		// collision 
 		var collisionEpisode:CollisionEpisode = new CollisionEpisode();
@@ -88,6 +101,22 @@ class ShooterTest extends Test
 		
 		
 		_story.begin();
+	}
+	
+	private function spawnEnemies():Void
+	{
+		var num:Int = Std.int(Math.random() * 3) + 1;
+		while (num-- >= 0) {
+			_factory.create("enemy");
+		}
+		
+	}
+	
+	private function checkHeight(p_story:Story, role:Role):Void {
+		var position:PositionRole = cast role;
+		if (position.y < 400) {
+			position.y = 400;
+		}
 	}
 	
 	private function removeOnCollideHandler(collider:Role, collidee:Role) 
