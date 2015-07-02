@@ -1,4 +1,4 @@
-package cinema.filters;
+package cinema.filters.conditions;
 
 import cinema.Actor;
 import cinema.Tag;

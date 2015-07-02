@@ -6,7 +6,7 @@ import cinema.properties.IntProperty;
 import cinema.Role;
 import cinema.Actor;
 import examples.shooter.properties.DisplayObjectProperty;
-import framework.roles.UpdatedRole;
+import cinema.roles.UpdatedRole;
 import openfl.display.DisplayObject;
 class DisplayObjectRole extends UpdatedRole {
 

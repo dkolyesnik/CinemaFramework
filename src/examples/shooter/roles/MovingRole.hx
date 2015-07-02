@@ -4,7 +4,7 @@ import cinema.Actor;
 import cinema.properties.FloatProperty;
 import cinema.Role;
 import examples.shooter.roles.PositionRole;
-import framework.roles.IUpdatedRole;
+import cinema.roles.IUpdatedRole;
 
 /**
  * ...

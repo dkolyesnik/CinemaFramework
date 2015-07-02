@@ -1,4 +1,4 @@
-package framework.roles;
+package cinema.roles;
 import cinema.Role;
 /**
  * ...

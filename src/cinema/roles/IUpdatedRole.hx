@@ -1,4 +1,4 @@
-package framework.roles;
+package cinema.roles;
 
 /**
  * @author Kolyesnik D.V.

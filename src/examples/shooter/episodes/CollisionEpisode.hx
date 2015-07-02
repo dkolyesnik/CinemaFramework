@@ -1,5 +1,4 @@
 package examples.shooter.episodes;
-
 import cinema.Episode;
 import cinema.Hunter;
 import cinema.Role;

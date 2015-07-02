@@ -178,7 +178,7 @@ class Actor
 			}
 		}
 	}
-	// ---------- Rolees and RoleDefs ----------
+	// ---------- Roles ----------
 	@:allow(cinema.Story)
 	private function _addRole(role:Role):Void {
 		_roles.push(role);
@@ -201,6 +201,7 @@ class Actor
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];
+	//TODO заменить на дикшонари
 	private var _roles:Array<Role> = [];
 	
 	private var _story:Story;

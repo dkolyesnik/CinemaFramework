@@ -2,7 +2,7 @@ package examples.shooter.episodes;
 
 import cinema.Episode;
 import cinema.Hunter;
-import framework.roles.IUpdatedRole;
+import cinema.roles.IUpdatedRole;
 
 /**
  * ...

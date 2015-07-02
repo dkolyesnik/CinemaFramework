@@ -1,4 +1,6 @@
 package cinema;
+import cinema.IActorsFactory;
+import cinema.IRoleModel;
 import haxe.ds.ObjectMap;
 
 /**

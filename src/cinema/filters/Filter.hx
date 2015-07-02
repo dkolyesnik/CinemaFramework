@@ -1,5 +1,7 @@
 package cinema.filters;
 import cinema.Actor;
+import cinema.filters.conditions.ActorNameFilterCondition;
+import cinema.filters.conditions.NoTagsFilterCondition;
 import cinema.Tag;
 
 /**
