@@ -21,24 +21,29 @@ import openfl.text.TextFormat;
  */
 class Main extends Sprite 
 {
+	var testsLayer:Sprite = new Sprite();
 	public function new() 
 	{
 		super();
 		
 		// Assets:
 		// openfl.Assets.getBitmapData("img/assetname.jpg");
-		var testsLayer:Sprite = new Sprite();
+		
 		
 		//Tests
-		addChild(createButton(100,100,"Test1",new Test1(testsLayer).start));
-		addChild(createButton(100,200,"Shooter",new ShooterTest(testsLayer).start));
 		
+		initTests();
 		
 		
 		addChild(testsLayer);
 		
 		
 		addChild(new FPS(10, 10, 0xFFFF80));
+	}
+	
+	private function initTests() {
+		addChild(createButton(100,100,"Test1",new Test1(testsLayer).start));
+		addChild(createButton(100,200,"Shooter",new ShooterTest(testsLayer).start));
 	}
 	
 	private function createButton(posX:Float, posY:Float, label:String, handler:Dynamic->Void):Sprite {

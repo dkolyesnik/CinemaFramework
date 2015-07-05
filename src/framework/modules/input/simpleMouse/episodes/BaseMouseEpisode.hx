@@ -1,8 +1,8 @@
-package examples.shooter.episodes;
+package framework.modules.input.simpleMouse.episodes;
 import cinema.Episode;
 import cinema.Hunter;
 import cinema.Story;
-import examples.shooter.roles.MouseRole;
+import framework.modules.input.simpleMouse.roles.MouseRole;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 
@@ -40,6 +40,5 @@ class BaseMouseEpisode extends Episode
 	
 	override public function update(dt:Float):Void 
 	{
-		trace("CLICK", mouse.x, mouse.y);
 	}
 }

@@ -1,8 +1,8 @@
-package examples.shooter.properties;
+package framework.modules.render.simpleDORender.properties;
 
 import cinema.Actor;
 import cinema.properties.Property;
-import examples.shooter.episodes.misc.RenderTags;
+import framework.modules.render.simpleDORender.tags.RenderTags;
 import openfl.display.DisplayObject;
 
 /**

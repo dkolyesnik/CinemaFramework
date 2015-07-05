@@ -1,12 +1,14 @@
 /**
  * Created by ִלטענטי on 28.06.2015.
  */
-package examples.shooter.roles;
+package framework.modules.render.simpleDORender.roles;
 import cinema.properties.IntProperty;
 import cinema.Role;
 import cinema.Actor;
-import examples.shooter.properties.DisplayObjectProperty;
+import framework.modules.render.simpleDORender.properties.DisplayObjectProperty;
 import cinema.roles.UpdatedRole;
+import framework.common.roles.PositionRole;
+import framework.common.roles.SizeRole;
 import openfl.display.DisplayObject;
 class DisplayObjectRole extends UpdatedRole {
 
@@ -32,6 +34,8 @@ class DisplayObjectRole extends UpdatedRole {
 	function set_layer(value:Int):Int { 
 		return _layerProperty.value = value;
 	}
+	
+
 	
     public function new() {
 		super();

@@ -1,8 +1,9 @@
 package examples.shooter.episodes;
 import cinema.Actor;
 import cinema.Hunter;
-import examples.shooter.roles.PositionRole;
+import framework.common.roles.PositionRole;
 import examples.shooter.roles.ShooterRole;
+import framework.modules.input.simpleMouse.episodes.BaseMouseEpisode;
 
 /**
  * ...

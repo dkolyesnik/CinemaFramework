@@ -7,19 +7,19 @@ import cinema.Role;
 import cinema.Story;
 import cinema.Tag;
 import examples.shooter.episodes.CollisionEpisode;
-import examples.shooter.episodes.DisplayObjectRenderEpisode;
+import framework.modules.render.simpleDORender.episodes.DisplayObjectRenderEpisode;
 import examples.shooter.episodes.DoActionsEpisode;
 import examples.shooter.episodes.DoOnTimerEpisode;
 import examples.shooter.episodes.FollowMouseEpisode;
 import examples.shooter.episodes.misc.DelayEpisodeTimer;
-import examples.shooter.episodes.MouseCursorEpisode;
+import framework.modules.input.simpleMouse.episodes.MouseInputEpisode;
 import examples.shooter.episodes.RemoveOnLeaveBorderEpisode;
 import examples.shooter.episodes.ShootOnClickEpisode;
 import examples.shooter.episodes.UpdateRoleEpisode;
-import examples.shooter.properties.DisplayObjectProperty;
+import framework.modules.render.simpleDORender.properties.DisplayObjectProperty;
 import examples.shooter.roles.ColliderRole;
 import examples.shooter.roles.MovingRole;
-import examples.shooter.roles.PositionRole;
+import framework.common.roles.PositionRole;
 import examples.Test;
 import examples.test1.DrawEpisode;
 import openfl.display.Sprite;
@@ -47,7 +47,7 @@ class ShooterTest extends Test
 		_factory = _story.setFactory(new ActorFactory());
 		
 		// mouse input
-		_story.addEpisode(new MouseCursorEpisode(_bg));
+		_story.addEpisode(new MouseInputEpisode(_bg));
 		
 		// spawnEnemies
 		_story.addEpisode(new DoOnTimerEpisode().setTimer(new DelayEpisodeTimer(120)).setHandler(spawnEnemies));

@@ -3,7 +3,7 @@ package examples.shooter.roles;
 import cinema.Actor;
 import cinema.properties.FloatProperty;
 import cinema.Role;
-import examples.shooter.roles.PositionRole;
+import framework.common.roles.PositionRole;
 import cinema.roles.IUpdatedRole;
 
 /**

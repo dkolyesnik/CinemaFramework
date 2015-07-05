@@ -1,11 +1,10 @@
-package examples.shooter.episodes;
+package framework.modules.render.simpleDORender.episodes;
 
 import cinema.Episode;
 import cinema.Hunter;
 import cinema.Story;
-import examples.shooter.episodes.DisplayObjectRenderEpisode.Layer;
-import examples.shooter.episodes.misc.RenderTags;
-import examples.shooter.roles.DisplayObjectRole;
+import framework.modules.render.simpleDORender.tags.RenderTags;
+import framework.modules.render.simpleDORender.roles.DisplayObjectRole;
 import openfl.display.Sprite;
 
 /**

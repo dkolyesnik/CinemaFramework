@@ -2,6 +2,7 @@ package examples.shooter.roles;
 import cinema.properties.StringProperty;
 import cinema.Role;
 import cinema.Actor;
+import framework.common.roles.PositionRole;
 /**
  * ...
  * @author Kolyesnik D.V.

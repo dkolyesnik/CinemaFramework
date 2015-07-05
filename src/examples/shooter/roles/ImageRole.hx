@@ -6,7 +6,8 @@ package examples.shooter.roles;
 import cinema.properties.IntProperty;
 import cinema.properties.StringProperty;
 import cinema.Role;
-import examples.shooter.roles.PositionRole;
+import framework.common.roles.PositionRole;
+import framework.common.roles.SizeRole;
 import openfl.display.Sprite;
 
 class ImageRole extends Role 

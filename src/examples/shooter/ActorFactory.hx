@@ -5,7 +5,7 @@ import cinema.properties.FloatProperty;
 import cinema.properties.IntProperty;
 import cinema.Story;
 import cinema.Tag;
-import examples.shooter.properties.DisplayObjectProperty;
+import framework.modules.render.simpleDORender.properties.DisplayObjectProperty;
 import openfl.display.Sprite;
 
 /**
@@ -53,7 +53,7 @@ class ActorFactory implements IActorsFactory
 		actor.addProperty("y", Math.random() * 400 + 50);
 		actor.addProperty("width", radius * 2);
 		actor.addProperty("height", radius * 2);
-		actor.addProperty("radius", radius * 2);
+		actor.addProperty("radius", radius);
 		if (layer == -1)
 			layer = Std.int(Math.random() * 4);
 		actor.addProperty("layer", layer);

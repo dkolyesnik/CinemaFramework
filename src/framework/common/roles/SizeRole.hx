@@ -1,4 +1,4 @@
-package examples.shooter.roles;
+package framework.common.roles;
 import cinema.properties.FloatProperty;
 import cinema.Role;
 import cinema.Actor;

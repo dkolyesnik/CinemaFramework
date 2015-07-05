@@ -1,8 +1,9 @@
 package examples.shooter.episodes;
 import cinema.Episode;
 import cinema.Hunter;
-import examples.shooter.roles.MouseRole;
-import examples.shooter.roles.PositionRole;
+import framework.modules.input.simpleMouse.episodes.BaseMouseEpisode;
+import framework.modules.input.simpleMouse.roles.MouseRole;
+import framework.common.roles.PositionRole;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 
@@ -24,8 +25,8 @@ class FollowMouseEpisode extends BaseMouseEpisode
 	override public function update(dt:Float):Void 
 	{
 		for (obj in _objects) {
-			obj.x = mouse.x;
-			obj.y = mouse.y;
+			obj.x = mouse.stageX;
+			obj.y = mouse.stageY;
 		}
 	}
 	

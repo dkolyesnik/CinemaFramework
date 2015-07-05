@@ -3,7 +3,7 @@ package examples.shooter.episodes;
 import cinema.Episode;
 import cinema.Hunter;
 import cinema.Role;
-import examples.shooter.roles.PositionRole;
+import framework.common.roles.PositionRole;
 
 /**
  * ...
