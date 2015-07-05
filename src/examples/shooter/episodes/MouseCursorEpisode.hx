@@ -29,6 +29,10 @@ class MouseCursorEpisode extends Episode
 	private var _stage:Sprite;
 	
 	private var _isClicked:Bool = false;
+	private var _isMouseDown:Bool = false;
+	private var _isMousePressed:Bool = false;
+	private var _isMouseReleased:Bool = false;
+
 	
 	public function new(stage:Sprite) 
 	{
@@ -45,6 +49,7 @@ class MouseCursorEpisode extends Episode
 			actor.addProperty("mouseY", new FloatProperty(0));
 		}
 		_stage.addEventListener(MouseEvent.CLICK, clickHandler);
+		_stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 		_stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 	}
 	
@@ -53,6 +58,10 @@ class MouseCursorEpisode extends Episode
 		_stage.removeEventListener(MouseEvent.CLICK, clickHandler);
 		_stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		super._destroy();
+	}
+
+	private function mouseDownHandler(e:MouseEvent):Void {
+
 	}
 	
 	private function clickHandler(e:MouseEvent):Void 
@@ -84,7 +93,7 @@ class MouseCursorEpisode extends Episode
 	{
 		_isClicked = false;
 	}
-	
+
 	override function _setupHunters():Void 
 	{
 		hunter = _createHunter(MouseRole, _mouseArray);
@@ -95,5 +104,6 @@ class MouseCursorEpisode extends Episode
 	{
 		return super._createHunter(roleClass, rolesArray);
 	}
+
 	
 }
