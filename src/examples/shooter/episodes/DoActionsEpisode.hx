@@ -11,7 +11,7 @@ import cinema.Story;
  */
 class DoActionsEpisode extends Episode
 {
-	public var hunter:Hunter;
+	public var hunter:Hunter<Role>;
 	
 	private var _roles:Array<Role> = [];
 	

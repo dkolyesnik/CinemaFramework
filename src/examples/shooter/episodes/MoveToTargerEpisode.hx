@@ -9,8 +9,8 @@ import cinema.Hunter;
  */
 class MoveToTargerEpisode extends Episode
 {
-	public var movingObjectHunter:Hunter;
-	public var targetHunter:Hunter;
+	public var movingObjectHunter:Hunter<Role>;
+	public var targetHunter:Hunter<Role>;
 	
 	public function new() 
 	{

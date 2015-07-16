@@ -19,7 +19,7 @@ import openfl.events.MouseEvent;
 class MouseInputEpisode extends Episode
 {
 
-	public var hunter:Hunter;
+	public var hunter:Hunter<Role>;
 	
 	private var _mouseArray:Array<MouseRole> = [];
 	
@@ -110,13 +110,8 @@ class MouseInputEpisode extends Episode
 
 	override function _setupHunters():Void 
 	{
-		hunter = _createHunter(MouseRole, _mouseArray);
+		hunter = _createHunter(MouseRole.name);
 		hunter.filter.actorName("mouse");
-	}
-	
-	override function _createHunter(roleClass:Class<Role>, rolesArray:Array<Dynamic> = null):Hunter 
-	{
-		return super._createHunter(roleClass, rolesArray);
 	}
 
 	

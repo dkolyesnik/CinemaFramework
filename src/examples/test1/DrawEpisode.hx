@@ -1,6 +1,7 @@
 package examples.test1;
 import cinema.Hunter;
 import cinema.properties.IntProperty;
+import cinema.Role;
 import cinema.Story;
 import openfl.display.Sprite;
 import cinema.Episode;
@@ -11,7 +12,7 @@ import cinema.Episode;
  */
 class DrawEpisode extends Episode
 {
-	public var renderObjectHunter:Hunter;
+	public var renderObjectHunter:Hunter<Role>;
 	
 	private var _renderObjects:Array<RenderRole> = [];
 	

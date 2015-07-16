@@ -10,7 +10,7 @@ import cinema.Story;
  */
 class MoveEpisode extends Episode
 {
-	public var moveableHunter:Hunter;
+	public var moveableHunter:Hunter<Role>;
 	
 	private var _movebleObjects:Array<MoverRole> = [];
 	

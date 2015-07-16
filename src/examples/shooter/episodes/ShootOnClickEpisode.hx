@@ -1,6 +1,7 @@
 package examples.shooter.episodes;
 import cinema.Actor;
 import cinema.Hunter;
+import cinema.Role;
 import framework.common.roles.PositionRole;
 import examples.shooter.roles.ShooterRole;
 import framework.modules.input.simpleMouse.episodes.BaseMouseEpisode;
@@ -11,7 +12,7 @@ import framework.modules.input.simpleMouse.episodes.BaseMouseEpisode;
  */
 class ShootOnClickEpisode extends BaseMouseEpisode
 {
-	public var shootersHunter:Hunter;
+	public var shootersHunter:Hunter<Role>;
 	
 	private var _shooters:Array<ShooterRole> = [];
 	

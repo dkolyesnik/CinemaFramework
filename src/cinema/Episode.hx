@@ -9,13 +9,7 @@ class Episode
 
 	public function new()
 	{
-		_setupHunters();
-	}
-	/**
-	 *  Override to setup Hunters
-	 */
-	private function _setupHunters():Void {
-		
+		_createHunters();
 	}
 	
 	@:allow(cinema.Story)
@@ -23,9 +17,13 @@ class Episode
 	 * Called when added to Story
 	 * @param	story
 	 */
-	private function _initialize(story:Story):Void {
+	private function _initialize(story:Story):Void 
+	{
 		_story = story;
-		for (hunter in _hunters) {
+		_registerRoleModels();
+		_addHunters();
+		for (hunter in _hunters) 
+		{
 			_story._addHunter(hunter);
 		}
 	}
@@ -34,9 +32,34 @@ class Episode
 	 * rough deleting everithng
 	 */
 	@:allow(cinema.Story)
-	private function _destroy():Void {
+	private function _destroy():Void 
+	{
 		_hunters = null;
 		_story = null;
+	}
+	
+	/**
+	 * override to register RoleModels here
+	 */
+	private function _registerRoleModels()
+	{
+		
+	}
+	
+	/**
+	 * override to create hunters
+	 */
+	private function _createHunters()
+	{
+		
+	}
+	
+	/**
+	 * override to create hunters
+	 */
+	private function _addHunters()
+	{
+		
 	}
 	
 	/**
@@ -62,12 +85,6 @@ class Episode
 		
 	}
 	
-	private  function _createHunter(roleClass:Class<Role>, rolesArray:Array<Dynamic> = null):Hunter {
-		var hunter = new Hunter(roleClass, rolesArray);
-		_hunters.push(hunter);
-		return hunter;
-	}
-	
 	private var _story:Story;
-	private var _hunters:Array<Hunter> = [];
+	private var _hunters:Array<Hunter<Role>> = [];
 }

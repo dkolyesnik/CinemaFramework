@@ -2,6 +2,7 @@ package framework.modules.render.simpleDORender.episodes;
 
 import cinema.Episode;
 import cinema.Hunter;
+import cinema.Role;
 import cinema.Story;
 import framework.modules.render.simpleDORender.tags.RenderTags;
 import framework.modules.render.simpleDORender.roles.DisplayObjectRole;
@@ -13,9 +14,9 @@ import openfl.display.Sprite;
  */
 class DisplayObjectRenderEpisode extends Episode
 {
-	public var displayObjectHunter:Hunter;
-	public var displayObjectsToUpdateParentHunter:Hunter;
-	public var displayObjectsOnStageHunter:Hunter;
+	public var displayObjectHunter:Hunter<Role>;
+	public var displayObjectsToUpdateParentHunter:Hunter<Role>;
+	public var displayObjectsOnStageHunter:Hunter<Role>;
 	
 	private var _mainLayer:Sprite;
 	private var _layers:Array<Layer> = [];

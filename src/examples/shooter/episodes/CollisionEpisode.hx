@@ -10,8 +10,8 @@ import examples.shooter.roles.ColliderRole;
  */
 class CollisionEpisode extends Episode
 {
-	public var colliderHunter:Hunter;
-	public var collideeHunter:Hunter;
+	public var colliderHunter:Hunter<Role>;
+	public var collideeHunter:Hunter<Role>;
 	
 	private var _colliders:Array<ColliderRole> = [];
 	private var _collidees:Array<ColliderRole> = [];

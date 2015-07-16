@@ -131,7 +131,8 @@ class Actor
 		}
 		
 		if (_story != null) {
-			for (role in _roles) {
+			for (role in _roles) 
+			{
 				_story._actorLostProperty(role);
 			}
 		}
@@ -179,30 +180,52 @@ class Actor
 		}
 	}
 	// ---------- Roles ----------
-	@:allow(cinema.Story)
-	private function _addRole(role:Role):Void {
-		_roles.push(role);
-	}
-	
-	@:allow(cinema.Story)
-	private function _hasRole(roleName:String):Bool {
-		for (role in _roles) {
-			if (role.name == roleName) {
-				return true;
-			}
+	//@:allow(cinema.Story)
+	//private function _addRole(role:Role):Void 
+	//{
+		//_roles.push(role);
+	//}
+	public function getRole(roleName:String):Role
+	{
+		if (_hasRole(roleName))
+		{
+			return _roles[roleName];
 		}
-		return false;
+		return null;
+	}
+	
+	@:allow(cinema.Hunter)
+	private function _requestRole(roleName:String):Role
+	{
+		if (_hasRole(roleName))
+		{
+			return _roles[roleName];
+		}
+		else
+		{
+			var roleModel = _story.getRoleModel(roleName);
+			var role = roleModel.createRole(this);
+			_roles[roleName] = role;
+			return role;
+		}
 	}
 	
 	@:allow(cinema.Story)
-	private function _getRoles():Array<Role> {
-		return _roles;
+	private inline function _hasRole(roleName:String):Bool 
+	{
+		return _roles.exists(roleName);
 	}
+	
+	//@:allow(cinema.Story)
+	//private function _getRoles():Array<Role> 
+	//{
+		//return _roles;
+	//}
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];
 	//TODO заменить на дикшонари
-	private var _roles:Array<Role> = [];
+	private var _roles:Map<String, Role> = new Map();
 	
 	private var _story:Story;
 }

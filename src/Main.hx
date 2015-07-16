@@ -2,11 +2,11 @@ package;
 
 import cinema.properties.IntProperty;
 import cinema.Story;
-import examples.shooter.ShooterTest;
-import examples.test1.DrawEpisode;
-import examples.test1.MoveEpisode;
-import examples.test1.RandomActionEpisode;
-import examples.test1.Test1;
+//import examples.shooter.ShooterTest;
+//import examples.test1.DrawEpisode;
+//import examples.test1.MoveEpisode;
+//import examples.test1.RandomActionEpisode;
+//import examples.test1.Test1;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
@@ -42,8 +42,8 @@ class Main extends Sprite
 	}
 	
 	private function initTests() {
-		addChild(createButton(100,100,"Test1",new Test1(testsLayer).start));
-		addChild(createButton(100,200,"Shooter",new ShooterTest(testsLayer).start));
+		//addChild(createButton(100,100,"Test1",new Test1(testsLayer).start));
+		//addChild(createButton(100,200,"Shooter",new ShooterTest(testsLayer).start));
 	}
 	
 	private function createButton(posX:Float, posY:Float, label:String, handler:Dynamic->Void):Sprite {

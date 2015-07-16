@@ -1,6 +1,7 @@
 package examples.shooter.episodes;
 import cinema.Episode;
 import cinema.Hunter;
+import cinema.Role;
 import framework.modules.input.simpleMouse.episodes.BaseMouseEpisode;
 import framework.modules.input.simpleMouse.roles.MouseRole;
 import framework.common.roles.PositionRole;
@@ -13,7 +14,7 @@ import openfl.events.MouseEvent;
  */
 class FollowMouseEpisode extends BaseMouseEpisode
 {
-	public var hunter:Hunter;
+	public var hunter:Hunter<Role>;
 	
 	private var _objects:Array<PositionRole> = [];
 	

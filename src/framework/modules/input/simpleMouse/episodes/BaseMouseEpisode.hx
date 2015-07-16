@@ -1,6 +1,7 @@
 package framework.modules.input.simpleMouse.episodes;
 import cinema.Episode;
 import cinema.Hunter;
+import cinema.Role;
 import cinema.Story;
 import framework.modules.input.simpleMouse.roles.MouseRole;
 import openfl.display.Sprite;
@@ -12,7 +13,7 @@ import openfl.events.MouseEvent;
  */
 class BaseMouseEpisode extends Episode
 {
-	private var _mouseHunter:Hunter;
+	private var _mouseHunter:Hunter<Role>;
 	private var _mouseArray:Array<MouseRole> = []; 
 	
 	private var mouse:MouseRole;

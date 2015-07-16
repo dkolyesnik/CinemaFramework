@@ -2,6 +2,7 @@ package examples.shooter.episodes;
 
 import cinema.Episode;
 import cinema.Hunter;
+import cinema.Role;
 import cinema.roles.IUpdatedRole;
 
 /**
@@ -10,7 +11,7 @@ import cinema.roles.IUpdatedRole;
  */
 class UpdateRoleEpisode extends Episode
 {
-	public var hunter:Hunter;
+	public var hunter:Hunter<Role>;
 	
 	private var _roleToUpdate:Array<IUpdatedRole> = [];
 	public function new() 

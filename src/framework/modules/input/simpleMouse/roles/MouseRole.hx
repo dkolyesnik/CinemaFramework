@@ -92,8 +92,10 @@ class MouseRole extends Role
 		return new MouseRole();
 	}
 	
-	override function _setName():Void 
+	override function get_name():String 
 	{
-		name = "MouseRole";
+		return name;
 	}
+	
+	public static inline var name = "MouseRole";
 }

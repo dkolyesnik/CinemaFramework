@@ -12,7 +12,7 @@ import cinema.Story;
  */
 class RandomActionEpisode extends Episode
 {
-	public var hunter:Hunter;
+	public var hunter:Hunter<RenderRole>;
 	
 	private var _chance:Int;
 	private var _foo:Actor->Void;
@@ -27,14 +27,18 @@ class RandomActionEpisode extends Episode
 	
 	override function _setupHunters():Void 
 	{
-		hunter = _createHunter(RenderRole);
+		hunter = new Hunter<RenderRole>();
+		
+		_hunters.push(hunter);
 	}
 	
 	override public function update(dt:Float):Void 
 	{
 		var array:Array<Role> = hunter.roles;
-		for (role in array) {
-			if (Math.random() * 100 > _chance) {
+		for (role in array) 
+		{
+			if (Math.random() * 100 > _chance) 
+			{
 				_foo(role.actor);
 			}
 		}

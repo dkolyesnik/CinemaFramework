@@ -11,7 +11,7 @@ import framework.common.roles.PositionRole;
  */
 class RemoveOnLeaveBorderEpisode extends Episode
 {
-	public var hunter:Hunter;
+	public var hunter:Hunter<Role>;
 	
 	private var _objects:Array<PositionRole> = [];
 	
@@ -43,7 +43,7 @@ class RemoveOnLeaveBorderEpisode extends Episode
 				|| (_topBorder != null && obj.y < _topBorder)
 				|| (_bottomBorder != null && obj.y > _bottomBorder)) 
 				{
-					_story.removeActor(obj.actor);					
+					_story.markAsNeedToBeRemoved(obj.actor);					
 				}
 		}
 	}
