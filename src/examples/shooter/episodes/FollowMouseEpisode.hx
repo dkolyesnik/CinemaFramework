@@ -14,9 +14,7 @@ import openfl.events.MouseEvent;
  */
 class FollowMouseEpisode extends BaseMouseEpisode
 {
-	public var hunter:Hunter<Role>;
-	
-	private var _objects:Array<PositionRole> = [];
+	public var hunter:Hunter<PositionRole>;
 	
 	public function new() 
 	{
@@ -25,16 +23,29 @@ class FollowMouseEpisode extends BaseMouseEpisode
 	
 	override public function update(dt:Float):Void 
 	{
-		for (obj in _objects) {
+		for (obj in hunter) {
 			obj.x = mouse.stageX;
 			obj.y = mouse.stageY;
 		}
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		super._setupHunters();
-		hunter = _createHunter(PositionRole, _objects);
+		super._registerRoleModels();
+		_story.registerRoleModel(new PositionRole());
 	}
+	
+	override function _createHunters() 
+	{
+		super._createHunters();
+		hunter = new Hunter<PositionRole>(PositionRole.NAME);
+	}
+	
+	override function _addHunters() 
+	{
+		super._addHunters();
+		_hunters.push( cast hunter);
+	}
+	
 	
 }

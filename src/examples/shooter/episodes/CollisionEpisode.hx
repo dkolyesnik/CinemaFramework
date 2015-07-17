@@ -1,4 +1,5 @@
-package examples.shooter.episodes;
+package 
+examples.shooter.episodes;
 import cinema.Episode;
 import cinema.Hunter;
 import cinema.Role;
@@ -10,14 +11,11 @@ import examples.shooter.roles.ColliderRole;
  */
 class CollisionEpisode extends Episode
 {
-	public var colliderHunter:Hunter<Role>;
-	public var collideeHunter:Hunter<Role>;
+	public var collider1Hunter:Hunter<ColliderRole>;
+	public var collider2Hunter:Hunter<ColliderRole>;
 	
-	private var _colliders:Array<ColliderRole> = [];
-	private var _collidees:Array<ColliderRole> = [];
-	
-	private var _colliderOnCollide:Role-> Role-> Void = null;
-	private var _collideeOnCollide:Role-> Role-> Void = null;
+	private var _collider1_OnCollide:Role-> Role-> Void = null;
+	private var _collider2_OnCollide:Role-> Role-> Void = null;
 	
 	public function new() 
 	{
@@ -26,30 +24,44 @@ class CollisionEpisode extends Episode
 	}
 	
 	public function setColliderHandler(handler:Role-> Role-> Void):Void {
-		_colliderOnCollide = handler;
+		_collider1_OnCollide = handler;
 	}
 	
 	public function setCollideeHandler(handler:Role-> Role-> Void):Void {
-		_collideeOnCollide = handler;
+		_collider2_OnCollide = handler;
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		super._setupHunters();
-		colliderHunter = _createHunter(ColliderRole, _colliders);
-		collideeHunter = _createHunter(ColliderRole, _collidees);
+		super._registerRoleModels();
+		_story.registerRoleModel(new ColliderRole());
+	}
+	
+	override function _createHunters() 
+	{
+		super._createHunters();
+		collider1Hunter = new Hunter<ColliderRole>(ColliderRole.NAME);
+		collider2Hunter = new Hunter<ColliderRole>(ColliderRole.NAME);
+		
+	}
+	
+	override function _addHunters() 
+	{
+		super._addHunters();
+		_hunters.push( cast collider1Hunter);
+		_hunters.push( cast collider2Hunter);
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		for (collider in _colliders) {
-			for (collidee in _collidees) {
-				if (calcDistance(collider.x, collider.y, collidee.x, collidee.y) < pow(collider.radius + collidee.radius)) {
-					if (_colliderOnCollide != null) {
-						_colliderOnCollide(collider, collidee);
+		for (collider1 in collider1Hunter) {
+			for (collider2 in collider2Hunter) {
+				if (calcDistance(collider1.x, collider1.y, collider2.x, collider2.y) < pow(collider1.radius + collider2.radius)) {
+					if (_collider1_OnCollide != null) {
+						_collider1_OnCollide(collider1, collider2);
 					}
-					if (_collideeOnCollide != null) {
-						_collideeOnCollide(collidee, collider);
+					if (_collider2_OnCollide != null) {
+						_collider2_OnCollide(collider2, collider1);
 					}
 				}
 			}

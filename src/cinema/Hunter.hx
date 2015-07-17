@@ -5,16 +5,20 @@ import cinema.filters.Filter;
  * ...
  * @author Kolyesnik D.V.
  */
-@:generic
-class Hunter<T:Role> 
+class Hunter<T:Role>
 {
 	public var roleName(default, null):String;
-	private var _roles:Array<T>;
-	//TODO можно добавить ещё динамический фильтр, который будет отфильтровывать объекты каждый раз перед использованием в сцене
 	public var filter(default, null):Filter;
 	
+	private var _roles:Array<T>;
+	
+	
+	
+	//TODO можно добавить ещё динамический фильтр, который будет отфильтровывать объекты каждый раз перед использованием в сцене
+	
+	
 	//TODO возможно стоит дать возможность задавать фильр чтобы давать возможность использовать фильтры повторно
-	public function new(p_roleName:String = null) 
+	public function new(p_roleName:String ) 
 	{
 		roleName = p_roleName;
 		_roles = [];
@@ -32,7 +36,7 @@ class Hunter<T:Role>
 	{
 		if (filter.check(actor)) 
 		{
-			_roles.push(actor.requestRole(roleName));
+			_addRole(cast actor._requestRole(roleName));
 		}
 	}
 	
@@ -50,14 +54,19 @@ class Hunter<T:Role>
 		}
 	}
 	
+	private inline function _addRole(p_role:T):Void
+	{
+		_roles.push(p_role);
+	}
+	
 	@:allow(cinema.Story)
-	private function _removeRole(p_role:T):Void 
+	private inline function _removeRole(p_role:T):Void 
 	{
 		_roles.remove(p_role);
 	}
 	
 	
-	public function inerator():Iterator<T>
+	public function iterator():Iterator<T>
 	{
 		return _roles.iterator();
 	}

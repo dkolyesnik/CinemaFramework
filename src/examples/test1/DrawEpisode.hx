@@ -12,9 +12,7 @@ import cinema.Episode;
  */
 class DrawEpisode extends Episode
 {
-	public var renderObjectHunter:Hunter<Role>;
-	
-	private var _renderObjects:Array<RenderRole> = [];
+	public var renderObjectHunter:Hunter<RenderRole>;
 	
 	public function new(main:Sprite) 
 	{
@@ -22,16 +20,27 @@ class DrawEpisode extends Episode
 		_spr = main;
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		renderObjectHunter = _createHunter(RenderRole, _renderObjects);
+		super._registerRoleModels();
+		_story.registerRoleModel(new RenderRole());
+	}
+	
+	override function _createHunters() 
+	{
+		renderObjectHunter = new Hunter<RenderRole>(RenderRole.NAME);
+	}
+	
+	override function _addHunters() 
+	{
+		_hunters.push( cast renderObjectHunter );
 	}
 	
 	override public function update(dt:Float):Void 
 	{
 		_spr.graphics.clear();
 		_spr.graphics.beginFill(0x004080);
-		for (renderObject in _renderObjects) {
+		for (renderObject in renderObjectHunter) {
 			_spr.graphics.drawCircle(renderObject.x, renderObject.y, renderObject.radius);
 		}
 		_spr.graphics.endFill();

@@ -25,17 +25,26 @@ class RandomActionEpisode extends Episode
 		_foo = foo;
 	}
 	
-	override function _setupHunters():Void 
+	override function _createHunters() 
 	{
-		hunter = new Hunter<RenderRole>();
-		
-		_hunters.push(hunter);
+		hunter = new Hunter<RenderRole>(RenderRole.NAME);
 	}
+	
+	override function _addHunters() 
+	{
+		_hunters.push(cast hunter);
+	}
+	
+	//override fun():Void 
+	//{
+		//hunter = new Hunter<RenderRole>();
+		//
+		//_hunters.push(cast hunter);
+	//}
 	
 	override public function update(dt:Float):Void 
 	{
-		var array:Array<Role> = hunter.roles;
-		for (role in array) 
+		for (role in hunter) 
 		{
 			if (Math.random() * 100 > _chance) 
 			{

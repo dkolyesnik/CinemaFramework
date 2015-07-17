@@ -93,7 +93,7 @@ class Actor
 		property._onAdd(this);
 
 		if (_story != null) {
-			_story._actorRecievedProperty(this);
+			_story.markAsPropertyAdded(this);
 		}
 		return property;
 	}
@@ -131,10 +131,7 @@ class Actor
 		}
 		
 		if (_story != null) {
-			for (role in _roles) 
-			{
-				_story._actorLostProperty(role);
-			}
+			_story.markAsPropertyLost(this);
 		}
 	}
 	
@@ -216,11 +213,11 @@ class Actor
 		return _roles.exists(roleName);
 	}
 	
-	//@:allow(cinema.Story)
-	//private function _getRoles():Array<Role> 
-	//{
-		//return _roles;
-	//}
+	@:allow(cinema.Story)
+	private function _getRoles():Map<String, Role>
+	{
+		return _roles;
+	}
 	
 	private var _properties:Map<String, Property> = new Map();
 	private var _tags:Array<Tag> = [];

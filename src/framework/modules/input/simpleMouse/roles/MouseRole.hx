@@ -9,6 +9,7 @@ import framework.modules.input.simpleMouse.tags.MouseTags;
  */
 class MouseRole extends Role 
 {
+	public static inline var NAME = "MouseRole";
 
 	// -- localX property --
 	public var localX (get, set):Float;
@@ -92,10 +93,10 @@ class MouseRole extends Role
 		return new MouseRole();
 	}
 	
-	override function get_name():String 
+	override function get_roleName():String 
 	{
-		return name;
+		return NAME;
 	}
 	
-	public static inline var name = "MouseRole";
+	
 }

@@ -13,8 +13,6 @@ class DoActionsEpisode extends Episode
 {
 	public var hunter:Hunter<Role>;
 	
-	private var _roles:Array<Role> = [];
-	
 	private var _actions:Array<Story->Role->Void> = [];
 
 	public function new() 
@@ -23,21 +21,24 @@ class DoActionsEpisode extends Episode
 		
 	}
 	
-	override function _setupHunters():Void 
+	override function _addHunters() 
 	{
-		super._setupHunters();
-		hunter = _createHunter(null, _roles);
+		super._addHunters();
+		_hunters.push( cast hunter );
 	}
 	
-	public function addAction(action:Story->Role-> Void):DoActionsEpisode {
+	public function addAction(action:Story->Role-> Void):DoActionsEpisode 
+	{
 		_actions.push(action);
 		return this;
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		for (role in _roles) {
-			for (action in _actions) {
+		for (role in hunter	) 
+		{
+			for (action in _actions) 
+			{
 				action(_story, role);
 			}
 		}

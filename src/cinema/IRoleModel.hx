@@ -5,7 +5,7 @@ package cinema;
  */
 interface IRoleModel 
 {
-	var name:String;
+	var roleName(get, null):String;
 	function checkRequirements(actor:Actor):Bool;
 	
 	function createRole(actor:Actor):Role;

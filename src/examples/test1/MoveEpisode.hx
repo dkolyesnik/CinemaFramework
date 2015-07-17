@@ -10,9 +10,7 @@ import cinema.Story;
  */
 class MoveEpisode extends Episode
 {
-	public var moveableHunter:Hunter<Role>;
-	
-	private var _movebleObjects:Array<MoverRole> = [];
+	public var moveableHunter:Hunter<MoverRole>;
 	
 	public function new() 
 	{
@@ -20,14 +18,25 @@ class MoveEpisode extends Episode
 		
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		moveableHunter = _createHunter(MoverRole, _movebleObjects);
+		super._registerRoleModels();
+		_story.registerRoleModel(new MoverRole());
+	}
+	
+	override function _createHunters() 
+	{
+		moveableHunter = new Hunter<MoverRole>(MoverRole.NAME);
+	}
+	
+	override function _addHunters() 
+	{
+		_hunters.push(cast moveableHunter);
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		for (moveable in _movebleObjects) {
+		for (moveable in moveableHunter) {
 			moveable.x += Std.int(Math.random() * 4 - 2);
 			moveable.y += Std.int(Math.random() * 4 - 2);
 		}

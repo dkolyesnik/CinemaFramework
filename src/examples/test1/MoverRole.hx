@@ -9,6 +9,8 @@ import cinema.properties.IntProperty;
  */
 class MoverRole extends Role
 {
+	static public inline var NAME:String = "MoverRole";
+	
 	private var _xProperty:IntProperty;
 	private var _yProperty:IntProperty;
 	
@@ -52,8 +54,8 @@ class MoverRole extends Role
 		return new MoverRole();
 	}
 	
-	override function _setName():Void 
+	override function get_roleName():String 
 	{
-		name = "Mover";
+		return NAME;
 	}
 }

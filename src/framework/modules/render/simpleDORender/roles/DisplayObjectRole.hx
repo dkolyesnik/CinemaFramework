@@ -10,7 +10,10 @@ import cinema.roles.UpdatedRole;
 import framework.common.roles.PositionRole;
 import framework.common.roles.SizeRole;
 import openfl.display.DisplayObject;
+
 class DisplayObjectRole extends UpdatedRole {
+	
+	static public inline var NAME = "DisplayObjectRole";
 
 	public var position:PositionRole;
 	public var size:SizeRole;
@@ -72,9 +75,9 @@ class DisplayObjectRole extends UpdatedRole {
 		return new DisplayObjectRole();
 	}
 	
-	override function _setName():Void 
+	override function get_roleName():String
 	{
-		name = "DisplayObjectRole";
+		return NAME;
 	}
 }
 

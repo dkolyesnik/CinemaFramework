@@ -44,6 +44,6 @@ class Spatial2dRole extends PositionRole
 	
 	override function _setName():Void 
 	{
-		name = "Spatial2dRole";
+		roleName = "Spatial2dRole";
 	}
 }

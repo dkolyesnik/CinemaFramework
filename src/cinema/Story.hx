@@ -2,6 +2,7 @@ package cinema;
 import cinema.IActorsFactory;
 import cinema.IRoleModel;
 import haxe.ds.ObjectMap;
+import openfl.errors.Error;
 
 /**
  * ...
@@ -56,8 +57,7 @@ class Story
 				episode.update(dt);
 				episode.postUpdate();
 			}
-			removeMarkedActors();
-			modifyMarkedTagActors();
+			updateActors();
 		}
 	}
 	
@@ -179,15 +179,41 @@ class Story
 	public function updateActors()
 	{
 		removeMarkedActors();
-		
+		modifyMarkedPropertyLost();
+		modifyMarkedPropertyAdded();
+		modifyMarkedTagActors();
 	}
 	
+	//--------------------------------------------------------------
+	//   Actors private
+	//--------------------------------------------------------------
+	
+	/**
+	 * Call _actorLostProperty for every marked actor
+	 * updates the hunters
+	 */
+	private function modifyMarkedPropertyLost()
+	{
+		for (actor in _actorsToUpdateOnPropertyLost)
+		{
+			_actorLostProperty(actor);
+			_actorsToUpdateOnPropertyLostByName.remove(actor.name);
+		}
+		clearArray(_actorsToUpdateOnPropertyLost);
+	}
+	
+	/**
+	 * Call _actorRecievedProperty for every marked actor
+	 * updates the hunters
+	 */
 	private function modifyMarkedPropertyAdded()
 	{
 		for (actor in _actorsToUpdateOnPropertyAdded)
 		{
-			
+			_actorRecievedProperty(actor);
+			_actorsToUpdateOnPropertyAddedByName.remove(actor.name);
 		}
+		clearArray(_actorsToUpdateOnPropertyAdded);
 	}
 	
 	/**
@@ -239,7 +265,7 @@ class Story
 		{
 			if (roleModel.checkRequirements(actor)) 
 			{
-				huntersArray = _huntersByRoleName.get(roleModel.name);
+				huntersArray = _huntersByRoleName.get(roleModel.roleName);
 				for (hunter in huntersArray)
 				{
 					hunter._tryToAddActor(actor);
@@ -249,7 +275,22 @@ class Story
 	}
 
 	
-	
+	@:allow(cinema.Actor)
+	private function _actorRecievedProperty(actor:Actor):Void 
+	{
+		var hunters:Array<Hunter<Role>>;
+		for (roleModel in _roleModelsByName) 
+		{
+			if (roleModel.checkRequirements(actor) && !actor._hasRole(roleModel.roleName)) 
+			{
+				hunters = _huntersByRoleName.get(roleModel.roleName);
+				for (hunter in hunters) 
+				{
+					hunter._tryToAddActor(actor);
+				}
+			}
+		}
+	}
 	
 		
 	@:allow(cinema.Actor)
@@ -259,7 +300,7 @@ class Story
 		{
 			if (!role.checkRequirements(role.actor))
 			{
-				var huntersArray = _huntersByRoleName.get(role.name);
+				var huntersArray = _huntersByRoleName.get(role.roleName);
 				for (hunter in huntersArray)
 				{
 					hunter._removeRole(role);
@@ -273,7 +314,7 @@ class Story
 	{
 		for (role in actor._getRoles()) 
 		{
-			var huntersArray = _huntersByRoleName.get(role.name);
+			var huntersArray = _huntersByRoleName.get(role.roleName);
 			for (hunter in huntersArray) 
 			{
 				hunter._checkRoleAfterUpdate(role);
@@ -284,7 +325,7 @@ class Story
 	@:allow(cinema.Actor)
 	private function _removeRoleFromHunters(role:Role):Void 
 	{
-		var huntersArray = _huntersByRoleName.get(role.name);
+		var huntersArray = _huntersByRoleName.get(role.roleName);
 		for (hunter in huntersArray) 
 		{
 			hunter._removeRole(role);
@@ -298,12 +339,12 @@ class Story
 	@:allow(cinema.Episode)
 	private function _addHunter(hunter:Hunter<Role>):Void 
 	{
-		var roleModel = _getRoleModel(hunter.roleClass);
-		var array = _huntersByRoleName.get(roleModel.name);
+		var roleModel = getRoleModel(hunter.roleName);
+		var array = _huntersByRoleName.get(roleModel.roleName);
 		if (array == null) 
 		{
 			array = [];
-			_huntersByRoleName.set(roleModel.name, array);
+			_huntersByRoleName.set(roleModel.roleName, array);
 		}
 		array.push(hunter);
 		
@@ -315,13 +356,13 @@ class Story
 	
 	public function registerRoleModel(roleModel:IRoleModel)
 	{
-		if (_roleModelsByName.exists(roleModel.name))
+		if (_roleModelsByName.exists(roleModel.roleName))
 		{
 			//TODO warning
 		}
 		else
 		{
-			_roleModelsByName[roleModel.name] = roleModel;
+			_roleModelsByName[roleModel.roleName] = roleModel;
 		}
 	}
 	
@@ -334,6 +375,7 @@ class Story
 		else 
 		{
 			//TODO error
+			throw new Error("Role model " + roleName+ " is not registered");
 			trace("Role model " + roleName+ " is not registered");
 			return null;
 		}

@@ -9,6 +9,7 @@ import framework.common.roles.PositionRole;
  */
 class ShooterRole extends PositionRole 
 {
+	static public inline var NAME = "ShooterRole";
 	
 	// -- bulletType property --
 	public var bulletType (get, set):String;
@@ -43,8 +44,8 @@ class ShooterRole extends PositionRole
 		return new ShooterRole();
 	}
 	
-	override function _setName():Void 
+	override function get_roleName():String 
 	{
-		name = "ShooterRole";
+		return NAME;
 	}
 }

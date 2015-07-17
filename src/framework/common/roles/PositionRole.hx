@@ -9,6 +9,8 @@ import cinema.Role;
  */
 class PositionRole extends Role
 {
+	static public inline var NAME = "PositionRole";
+	
 	// -- x property --
 	public var x (get, set):Float;
 	private var _xProperty:FloatProperty;
@@ -53,8 +55,8 @@ class PositionRole extends Role
 		return new PositionRole();
 	}
 	
-	override function _setName():Void 
+	override function get_roleName():String
 	{
-		name = "Position";
+		return NAME;
 	}
 }

@@ -24,8 +24,5 @@ class UpdatedRole extends Role implements IUpdatedRole
 		return new UpdatedRole();
 	}
 	
-	override function _setName():Void 
-	{
-		name = "Role";
-	}
+	
 }

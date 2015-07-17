@@ -7,7 +7,7 @@ package cinema;
 class Role implements IRoleModel
 {
 	public var actor:Actor;
-	public var name(get, null):String;
+	public var roleName(get, null):String;
 	
 	public function new() {	}
 	
@@ -26,9 +26,10 @@ class Role implements IRoleModel
 		return new Role();
 	}
 	
-	private function get_name():String 
+	private function get_roleName():String 
 	{
-		name = "Role";
+		//TODO error, need to be overrided
+		return null;
 	}
 	//TODO как то ограничить вызов для ролей к-е в истории, возможно флагом к-й задаётся в Story
 	public function initialize(p_actor:Actor):Void 

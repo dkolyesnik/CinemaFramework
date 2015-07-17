@@ -11,9 +11,7 @@ import framework.common.roles.PositionRole;
  */
 class RemoveOnLeaveBorderEpisode extends Episode
 {
-	public var hunter:Hunter<Role>;
-	
-	private var _objects:Array<PositionRole> = [];
+	public var hunter:Hunter<PositionRole>;
 	
 	private var _leftBorder:Null<Float>;
 	private var _rightBorder:Null<Float>;
@@ -30,14 +28,28 @@ class RemoveOnLeaveBorderEpisode extends Episode
 		_bottomBorder = bottomBorder;
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		hunter = _createHunter(PositionRole, _objects);
+		super._registerRoleModels();
+		_story.registerRoleModel(new PositionRole());
+	}
+	
+	override function _createHunters() 
+	{
+		super._createHunters();
+		hunter = new Hunter<PositionRole>(PositionRole.NAME);
+	}
+	
+	override function _addHunters() 
+	{
+		super._addHunters();
+		
+		_hunters.push( cast hunter );
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		for (obj in _objects) {
+		for (obj in hunter) {
 			if ((_leftBorder != null && obj.x < _leftBorder) 
 				|| (_rightBorder != null && obj.x > _rightBorder)
 				|| (_topBorder != null && obj.y < _topBorder)

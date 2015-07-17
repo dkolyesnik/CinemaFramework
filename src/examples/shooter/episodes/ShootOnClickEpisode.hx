@@ -12,9 +12,7 @@ import framework.modules.input.simpleMouse.episodes.BaseMouseEpisode;
  */
 class ShootOnClickEpisode extends BaseMouseEpisode
 {
-	public var shootersHunter:Hunter<Role>;
-	
-	private var _shooters:Array<ShooterRole> = [];
+	public var shootersHunter:Hunter<ShooterRole>;
 	
 	// не самый оптимизирвоанный вариант, но удобно
 	private var _bulletPosition:PositionRole;
@@ -25,17 +23,29 @@ class ShootOnClickEpisode extends BaseMouseEpisode
 		_bulletPosition = new PositionRole();
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		super._setupHunters();
-		shootersHunter = _createHunter(ShooterRole, _shooters);
+		super._registerRoleModels();
+		_story.registerRoleModel(new ShooterRole());
+	}
+	
+	override function _createHunters() 
+	{
+		super._createHunters();
+		shootersHunter = new Hunter<ShooterRole>(ShooterRole.NAME);
+	}
+	
+	override function _addHunters() 
+	{
+		super._addHunters();
+		_hunters.push( cast shootersHunter );
 	}
 	
 	override public function update(dt:Float):Void 
 	{
 		
 		if (mouse.isClicked()) {
-			for (shooter in _shooters) {
+			for (shooter in shootersHunter) {
 				_bulletPosition.initialize(_story.createByFactory(shooter.bulletType));
 				if (_bulletPosition != null) {
 					_bulletPosition.x = shooter.x;

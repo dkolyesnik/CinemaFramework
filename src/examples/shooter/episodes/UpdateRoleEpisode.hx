@@ -4,6 +4,7 @@ import cinema.Episode;
 import cinema.Hunter;
 import cinema.Role;
 import cinema.roles.IUpdatedRole;
+import cinema.roles.UpdatedRole;
 
 /**
  * ...
@@ -11,24 +12,24 @@ import cinema.roles.IUpdatedRole;
  */
 class UpdateRoleEpisode extends Episode
 {
-	public var hunter:Hunter<Role>;
+	public var hunter:Hunter<UpdatedRole>;
 	
-	private var _roleToUpdate:Array<IUpdatedRole> = [];
 	public function new() 
 	{
 		super();
 		
 	}
 	
-	override function _setupHunters():Void 
+	override function _addHunters() 
 	{
-		super._setupHunters();
-		hunter = _createHunter(null, _roleToUpdate);
+		super._addHunters();
+		//TODO error 
+		_hunters.push( cast hunter );
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		for (role in _roleToUpdate) {
+		for (role in hunter) {
 			role.update(dt);
 		}
 	}

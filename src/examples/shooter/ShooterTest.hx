@@ -1,5 +1,6 @@
 package examples.shooter;
 
+import cinema.Hunter;
 import cinema.IActorsFactory;
 import cinema.properties.FloatProperty;
 import cinema.properties.IntProperty;
@@ -46,6 +47,10 @@ class ShooterTest extends Test
 		_story = new Story();
 		_factory = _story.setFactory(new ActorFactory());
 		
+		// registering Roles
+		
+		_story.registerRoleModel(new MovingRole());
+		
 		// mouse input
 		_story.addEpisode(new MouseInputEpisode(_bg));
 		
@@ -60,22 +65,23 @@ class ShooterTest extends Test
 		
 		// player mods
 		var actionsEpisode:DoActionsEpisode = new DoActionsEpisode().addAction(checkHeight);
-		actionsEpisode.hunter.setRoleClass(PositionRole).filter.withTags(["player"]);
+		actionsEpisode.hunter = cast new Hunter<PositionRole>(PositionRole.NAME);
+		actionsEpisode.hunter.filter.withTags(["player"]);
 		_story.addEpisode(actionsEpisode);
 		
 		// collision 
 		var collisionEpisode:CollisionEpisode = new CollisionEpisode();
-		collisionEpisode.colliderHunter.filter.withTags(["bullet"]);
-		collisionEpisode.collideeHunter.filter.withTags(["enemy"]);
+		collisionEpisode.collider1Hunter.filter.withTags(["bullet"]);
+		collisionEpisode.collider2Hunter.filter.withTags(["enemy"]);
 		collisionEpisode.setColliderHandler(removeOnCollideHandler);
 		collisionEpisode.setCollideeHandler(removeOnCollideHandler);
 		_story.addEpisode(collisionEpisode);
 		
 		// move
 		var moveEpisode:UpdateRoleEpisode = new UpdateRoleEpisode();
-		moveEpisode.hunter.setRoleClass(MovingRole).filter.withTags(["bullet"]);
+		moveEpisode.hunter = cast new Hunter<MovingRole>(MovingRole.NAME);
+		moveEpisode.hunter.filter.withTags(["bullet"]);
 		_story.addEpisode(moveEpisode);
-		
 		
 		
 		// remove when leave screen
@@ -121,7 +127,7 @@ class ShooterTest extends Test
 	
 	private function removeOnCollideHandler(collider:Role, collidee:Role) 
 	{
-		_story.removeActor(collider.actor);
+		_story.markAsNeedToBeRemoved(collider.actor);
 	}
 	
 	

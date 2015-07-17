@@ -13,8 +13,7 @@ import openfl.events.MouseEvent;
  */
 class BaseMouseEpisode extends Episode
 {
-	private var _mouseHunter:Hunter<Role>;
-	private var _mouseArray:Array<MouseRole> = []; 
+	private var _mouseHunter:Hunter<MouseRole>;
 	
 	private var mouse:MouseRole;
 	
@@ -23,20 +22,33 @@ class BaseMouseEpisode extends Episode
 		super();
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		super._setupHunters();
-		_mouseHunter = _createHunter(MouseRole, _mouseArray);
-		_mouseHunter.filter.actorName("mouse");
+		super._registerRoleModels();
+		_story.registerRoleModel(new MouseRole());
 	}
-
+	
+	override function _createHunters() 
+	{
+		super._createHunters();
+		_mouseHunter = new Hunter<MouseRole>(MouseRole.NAME);
+	}
+	
+	override function _addHunters() 
+	{
+		super._addHunters();
+		_hunters.push( cast _mouseHunter);
+	}
+	
 	override public function preUpdate():Bool 
 	{
 		super.preUpdate();
-		if (_mouseArray.length == 0)
-			return false;
-		mouse = _mouseArray[0];
-		return true;
+		for (mouseRole in _mouseHunter)
+		{
+			mouse = mouseRole;
+			return true;
+		}
+		return false;
 	}
 	
 	override public function update(dt:Float):Void 

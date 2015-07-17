@@ -8,6 +8,7 @@ import cinema.Actor;
  */
 class SizeRole extends Role 
 {
+	static public inline var NAME = "SizeRole";
 
    // -- width property --
    public var width (get, set):Float;
@@ -53,8 +54,8 @@ class SizeRole extends Role
 		return new SizeRole();
 	}
 	
-	override function _setName():Void 
+	override function get_roleName():String
 	{
-		name = "SizeRole";
+		return NAME;
 	}
 }

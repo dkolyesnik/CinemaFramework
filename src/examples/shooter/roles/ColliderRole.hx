@@ -9,6 +9,8 @@ import framework.common.roles.PositionRole;
  */
 class ColliderRole extends PositionRole 
 {
+	static public inline var NAME = "ColliderRole";
+	
 	// -- radius property --
 	public var radius (get, set):Float;
 	private var _radiusProperty:FloatProperty;
@@ -42,8 +44,8 @@ class ColliderRole extends PositionRole
 		return new ColliderRole();
 	}
 	
-	override function _setName():Void 
+	override function get_roleName():String 
 	{
-		name = "CollisionRole";
+		return NAME;
 	}
 }

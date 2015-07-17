@@ -3,6 +3,7 @@ package examples.shooter.roles;
 import cinema.Actor;
 import cinema.properties.FloatProperty;
 import cinema.Role;
+import cinema.roles.UpdatedRole;
 import framework.common.roles.PositionRole;
 import cinema.roles.IUpdatedRole;
 
@@ -10,8 +11,29 @@ import cinema.roles.IUpdatedRole;
  * ...
  * @author Kolyesnik D.V.
  */
-class MovingRole extends PositionRole implements IUpdatedRole
+class MovingRole extends UpdatedRole
 {
+	static public inline var NAME = "MovingRole";
+	
+	// -- x property --
+	public var x (get, set):Float;
+	private var _xProperty:FloatProperty;
+	private inline function get_x():Float { 
+		return _xProperty.value;	
+	}
+	private inline function set_x(value:Float):Float { 
+	   return _xProperty.value = value;
+	}
+	
+	// -- y property --
+	public var y (get, set):Float;
+	private var _yProperty:FloatProperty;
+	private inline function get_y():Float {
+	   return _yProperty.value;
+	}
+	private inline function set_y(value:Float):Float {
+	   return _yProperty.value = value;
+	}
 	// -- speed property --
 	public var speed (get, set):Float;
 	private var _speedProperty:FloatProperty;
@@ -30,10 +52,12 @@ class MovingRole extends PositionRole implements IUpdatedRole
 	override function _readProperties():Void 
 	{
 		super._readProperties();
+		_xProperty = cast(actor.getProperty("x"));
+		_yProperty = cast actor.getProperty("y");
 		_speedProperty = cast actor.getProperty("speed");
 	}
 	
-	public function update(dt:Float):Void {
+	override public function update(dt:Float):Void {
 		//TODO need direction
 		y -= speed;
 	}
@@ -41,7 +65,7 @@ class MovingRole extends PositionRole implements IUpdatedRole
 	// ----- Model ------
 	override public function checkRequirements(actor:Actor):Bool 
 	{
-		return super.checkRequirements(actor) && actor.hasProperty("speed");
+		return super.checkRequirements(actor) && actor.hasProperty("speed") && actor.hasProperty("x") && actor.hasProperty("y");
 	}
 	
 	override function _roleConstructor():Role 
@@ -49,8 +73,8 @@ class MovingRole extends PositionRole implements IUpdatedRole
 		return new MovingRole();
 	}
 	
-	override function _setName():Void 
+	override function get_roleName():String 
 	{
-		name = "MovingRole";
+		return NAME;
 	}
 }

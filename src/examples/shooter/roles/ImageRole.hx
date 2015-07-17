@@ -58,6 +58,6 @@ class ImageRole extends Role
 	
 	override function _setName():Void 
 	{
-		name = "ImageRole";
+		roleName = "ImageRole";
 	}
 }

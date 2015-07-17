@@ -10,6 +10,8 @@ import cinema.properties.IntProperty;
  */
 class RenderRole extends Role
 {
+	static public inline var NAME = "RenderRole";
+	
 	private var _xProperty:IntProperty;
 	private var _yProperty:IntProperty;
 	private var _radiusProperty:IntProperty;
@@ -65,9 +67,9 @@ class RenderRole extends Role
 		return new RenderRole();
 	}
 	
-	override function _setName():Void 
+	override inline function get_roleName():String 
 	{
-		name = "Render";
+		return NAME;
 	}
 	
 }

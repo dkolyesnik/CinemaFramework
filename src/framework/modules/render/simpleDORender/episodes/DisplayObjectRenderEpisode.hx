@@ -14,17 +14,13 @@ import openfl.display.Sprite;
  */
 class DisplayObjectRenderEpisode extends Episode
 {
-	public var displayObjectHunter:Hunter<Role>;
-	public var displayObjectsToUpdateParentHunter:Hunter<Role>;
-	public var displayObjectsOnStageHunter:Hunter<Role>;
+	public var displayObjectHunter:Hunter<DisplayObjectRole>;
+	public var displayObjectsToUpdateParentHunter:Hunter<DisplayObjectRole>;
+	public var displayObjectsOnStageHunter:Hunter<DisplayObjectRole>;
 	
 	private var _mainLayer:Sprite;
 	private var _layers:Array<Layer> = [];
 	private var _layerByPriority:Map<Int, Layer> = new Map();
-	
-	private var _displayObjects:Array<DisplayObjectRole> = [];
-	private var _displayObjectsoUpdateParent:Array<DisplayObjectRole> = [];
-	private var _displayObjectsOnStage:Array<DisplayObjectRole> = [];
 	
 	public function new(mainLayer:Sprite) 
 	{
@@ -32,32 +28,54 @@ class DisplayObjectRenderEpisode extends Episode
 		_mainLayer = mainLayer;
 	}
 	
-	override function _setupHunters():Void 
+	override function _registerRoleModels() 
 	{
-		displayObjectHunter = _createHunter(DisplayObjectRole, _displayObjects);
-		displayObjectsToUpdateParentHunter = _createHunter(DisplayObjectRole, _displayObjectsoUpdateParent);
-		displayObjectHunter.filter.withTags([RenderTags.UPDATE_PARENT]);
-		displayObjectsOnStageHunter = _createHunter(DisplayObjectRole, _displayObjectsOnStage);
+		super._registerRoleModels();
+		_story.registerRoleModel(new DisplayObjectRole());
+		
+	}
+	
+	override function _createHunters() 
+	{
+		super._createHunters();
+		displayObjectHunter = new Hunter<DisplayObjectRole>(DisplayObjectRole.NAME);
+		
+		displayObjectsToUpdateParentHunter = new Hunter<DisplayObjectRole>(DisplayObjectRole.NAME);
+		displayObjectsToUpdateParentHunter.filter.withTags([RenderTags.UPDATE_PARENT]);
+		
+		displayObjectsOnStageHunter = new Hunter<DisplayObjectRole>(DisplayObjectRole.NAME);
 		displayObjectsOnStageHunter.filter.withTags([RenderTags.ON_STAGE]);
+	}
+	
+	override function _addHunters() 
+	{
+		super._addHunters();
+		_hunters.push( cast displayObjectHunter);
+		_hunters.push( cast displayObjectsToUpdateParentHunter);
+		_hunters.push( cast displayObjectsOnStageHunter);
 	}
 	
 	override public function update(dt:Float):Void 
 	{
-		for (displayObject in _displayObjectsoUpdateParent) {
+		for (displayObject in displayObjectsToUpdateParentHunter) 
+		{
 			getLayer(displayObject.layer).addChild(displayObject.displayObject);
 			displayObject.actor.removeTag(RenderTags.UPDATE_PARENT);
 			displayObject.actor.addTag(RenderTags.ON_STAGE);
 		}
 		
-		_story.modifyMarkedTagActors();
+		_story.updateActors();
 		
-		for (displayObject in _displayObjectsOnStage) {
+		for (displayObject in displayObjectHunter) 
+		{
 			displayObject.update(dt);
 		}
 	}
 	
-	private function getLayer(priority:Int):Layer {
-		if (_layerByPriority.exists(priority)) {
+	private function getLayer(priority:Int):Layer 
+	{
+		if (_layerByPriority.exists(priority)) 
+		{
 			return _layerByPriority.get(priority);
 		}
 		var layer = new Layer();
