@@ -71,5 +71,18 @@ class Hunter<T:Role>
 		return _roles.iterator();
 	}
 	
+	public function rolesNumber():Int
+	{
+		return _roles.length;
+	}
+	
+	public function getRoleAt(index:Int):T 
+	{
+		if(index >= 0 && index < _roles.length)
+			return _roles[index];
+		else
+			return null;
+	}
+	
 	
 }

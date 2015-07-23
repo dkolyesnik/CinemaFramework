@@ -40,7 +40,7 @@ class PositionRole extends Role
 	
 	override function _readProperties():Void 
 	{
-		_xProperty = cast(actor.getProperty("x"));
+		_xProperty = cast actor.getProperty("x");
 		_yProperty = cast actor.getProperty("y");
 	}
 	
